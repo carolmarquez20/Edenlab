@@ -1,0 +1,1643 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Edén Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: one animated floating-islands sky behind everything. Home = Leito the lion on his island + three floating star/atom lab buttons. Each lab opens as a glass panel over the same sky. */
+:root{
+  --bg:#fbeaf6; --fg:#2a2150; --muted:#5a5185; --plate:#ffffff; --plate-t:rgba(255,255,255,.62); --glow:rgba(255,255,255,.95); --glow2:rgba(255,159,28,.55); --tut1:#bfe2ff; --tut2:#fbeaf6;
+  --glass:rgba(255,255,255,.74); --glass-b:rgba(255,255,255,.94); --line:rgba(42,33,80,.2);
+  --accent:#ff9f1c; --on-accent:#2a2150;
+  --gold:#f5a623; --teal:#16a89b; --pink:#f0529c; --leaf:#4db85c; --sky:#3b82f6; --red:#e0483f; --orange:#f08a24;
+  --ok:#1f8a4c; --bad:#c9443f;
+  --silfill:#d7e7ff; --sil-line:#6aa5ff;
+  --b-a:#f0529c; --b-t:#f5a623; --b-c:#4a8dff; --b-g:#3dbb5a;
+  --lion-mane:#e0782a; --lion-body:#f4b24c; --lion-face:#ffd98f; --lion-belly:#ffe9b8;
+  --f-display:'Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#120b33; --fg:#f6f1ff; --muted:#c3b9ef; --plate:#1d1250; --plate-t:rgba(29,18,80,.55); --glow:rgba(255,194,71,.6); --glow2:rgba(140,110,255,.6); --tut1:#1b0f50; --tut2:#43297a;
+    --glass:rgba(26,16,70,.74); --glass-b:rgba(70,46,140,.9); --line:rgba(246,241,255,.26);
+    --accent:#ffc247; --on-accent:#1b1140;
+    --gold:#ffc247; --teal:#3ad6c6; --pink:#ff7db8; --leaf:#5fd17a; --sky:#6aa8ff; --red:#ff6a5f; --orange:#ffa040;
+    --ok:#4cd987; --bad:#ff7a73;
+    --silfill:#3b3f93; --sil-line:#8bb8ff;
+    --b-a:#ff7db8; --b-t:#ffc247; --b-c:#6aa8ff; --b-g:#5fd17a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#120b33; --fg:#f6f1ff; --muted:#c3b9ef; --plate:#1d1250; --plate-t:rgba(29,18,80,.55); --glow:rgba(255,194,71,.6); --glow2:rgba(140,110,255,.6); --tut1:#1b0f50; --tut2:#43297a;
+  --glass:rgba(26,16,70,.74); --glass-b:rgba(70,46,140,.9); --line:rgba(246,241,255,.26);
+  --accent:#ffc247; --on-accent:#1b1140;
+  --gold:#ffc247; --teal:#3ad6c6; --pink:#ff7db8; --leaf:#5fd17a; --sky:#6aa8ff; --red:#ff6a5f; --orange:#ffa040;
+  --ok:#4cd987; --bad:#ff7a73;
+  --silfill:#3b3f93; --sil-line:#8bb8ff;
+  --b-a:#ff7db8; --b-t:#ffc247; --b-c:#6aa8ff; --b-g:#5fd17a;
+  color-scheme:dark;
+}
+/* Colorblind palette (Okabe-Ito based) */
+:root[data-cb="1"]{
+  --accent:#E69F00; --gold:#E69F00; --teal:#009E73; --pink:#CC79A7; --leaf:#009E73; --sky:#0072B2; --red:#D55E00; --orange:#E69F00;
+  --ok:#0072B2; --bad:#D55E00; --sil-line:#0072B2;
+  --b-a:#CC79A7; --b-t:#E69F00; --b-c:#0072B2; --b-g:#009E73;
+  --lion-mane:#c9791c;
+}
+@media (prefers-color-scheme: dark){
+  :root[data-cb="1"]:not([data-theme="light"]){
+    --accent:#F0E442; --gold:#F0E442; --sky:#56B4E9; --ok:#56B4E9; --sil-line:#56B4E9; --b-c:#56B4E9; --teal:#2bc9a0; --leaf:#2bc9a0; --b-g:#2bc9a0; --on-accent:#1b1140;
+  }
+}
+:root[data-cb="1"][data-theme="dark"]{
+  --accent:#F0E442; --gold:#F0E442; --sky:#56B4E9; --ok:#56B4E9; --sil-line:#56B4E9; --b-c:#56B4E9; --teal:#2bc9a0; --leaf:#2bc9a0; --b-g:#2bc9a0; --on-accent:#1b1140;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:500 16px/1.5 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0; min-height:100vh; overflow-x:hidden; position:relative;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+button{font-family:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:4px solid var(--accent);outline-offset:3px;border-radius:12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;padding-top:8px;max-width:1200px;margin:0 auto}
+.bar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;justify-content:space-between;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:2px solid var(--glass-b);border-radius:26px;padding:8px 12px}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;font:800 1.5rem/1 var(--f-display);min-height:44px}
+.logo svg{width:34px;height:34px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;justify-content:center;gap:.45em;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--glass-b);color:var(--fg);font:700 .95rem/1 var(--f-body);cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
+.chip:hover{transform:translateY(-2px)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.chip svg{width:20px;height:20px;flex:none}
+.lg{opacity:.62}
+.lg.on{opacity:1;font-weight:800;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:3px;text-underline-offset:5px}
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:999px;background:var(--glass-b);padding:3px;gap:3px}
+.seg button{width:42px;height:38px;border-radius:999px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;color:var(--fg)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.seg svg{width:22px;height:22px}
+.counter{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border-radius:999px;background:var(--accent);color:var(--on-accent);font:800 1.05rem var(--f-display)}
+.counter svg{width:20px;height:20px}
+
+.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding-block:16px 40px}
+.view[hidden]{display:none}
+
+/* home */
+.hero{display:grid;gap:18px 32px;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);grid-template-areas:"lion copy" "lion labs" "lion note";align-items:start}
+.hero-copy{grid-area:copy;display:grid;gap:10px;padding-top:12px}
+.hero-copy p{font-size:1.1rem;max-width:34em;background:var(--glass);padding:10px 14px;border-radius:18px;backdrop-filter:blur(8px)}
+.lion-stage{grid-area:lion;display:grid;gap:10px;justify-items:center;min-width:0}
+.bubble{position:relative;background:var(--glass-b);border:3px solid var(--line);border-radius:22px;padding:12px 16px;max-width:30em;font-weight:700;min-height:4.2em;display:flex;align-items:center}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-13px;width:20px;height:20px;background:var(--glass-b);border-right:3px solid var(--line);border-bottom:3px solid var(--line);transform:translateX(-50%) rotate(45deg)}
+.bubble.pop{animation:pop .35s ease-out}
+.lion-btn{background:none;border:0;padding:0;cursor:pointer;width:min(300px,74vw);margin-top:6px}
+.lion{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 10px 10px rgba(0,0,0,.18));animation:bob 3.6s ease-in-out infinite}
+.lion-btn.hop .lion{animation:hop .6s ease-out}
+.tail{transform-origin:138px 190px;animation:wag 1.8s ease-in-out infinite}
+.eyes{transform-origin:100px 98px;animation:blink 4.6s infinite}
+.o{display:none}
+html[data-outfit="scientist"] .o-scientist,html[data-outfit="chef"] .o-chef,html[data-outfit="engineer"] .o-engineer,html[data-outfit="artist"] .o-artist,html[data-outfit="farmer"] .o-farmer,html[data-outfit="politician"] .o-politician{display:inline}
+.island{width:min(380px,90%);margin-top:-52px;animation:float 5s ease-in-out infinite;pointer-events:none}
+.wardrobe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:min(460px,100%)}
+.wardrobe h2{grid-column:1/-1;font-size:1.15rem;font-weight:700;text-align:center}
+.wardrobe .chip{flex-direction:column;gap:4px;padding:8px 6px;min-height:62px;font-size:.85rem;border-radius:20px}
+.wardrobe .chip svg{width:26px;height:26px}
+.labs-wrap{grid-area:labs;display:grid;gap:8px}
+.labs-wrap h2{font-size:1.3rem;font-weight:700}
+.labs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.labbtn{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;text-align:center;animation:float 4.4s ease-in-out infinite;animation-delay:var(--d,0s);min-width:0}
+.labbtn .shape{width:min(128px,100%);aspect-ratio:1;display:block;filter:drop-shadow(0 10px 12px rgba(0,0,0,.25));transition:transform .2s}
+.labbtn:hover .shape,.labbtn:focus-visible .shape{transform:scale(1.12) rotate(-4deg)}
+.labbtn .shape svg{width:100%;height:100%;overflow:visible}
+.labbtn .cap{background:var(--glass-b);border:2px solid var(--line);border-radius:18px;padding:6px 8px;display:grid;gap:2px}
+.labbtn b{font:800 1rem/1.1 var(--f-display)}
+.labbtn small{font-size:.78rem;line-height:1.25;color:var(--muted);font-weight:600}
+.spin{transform-origin:50px 50px;animation:spin 6s linear infinite}
+.spin2{transform-origin:50px 50px;animation:spin 9s linear infinite reverse}
+.note{grid-area:note;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tag{display:inline-flex;align-items:center;gap:6px;font:800 .78rem var(--f-body);letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:999px}
+.tag.sci{background:var(--sky);color:#fff}
+.tag.faith{background:var(--gold);color:#2a2150}
+:root[data-cb="1"] .tag.sci{background:var(--sky)}
+.card{background:var(--glass);border:2px solid var(--glass-b);border-radius:22px;padding:12px 14px;display:grid;gap:6px;align-content:start;backdrop-filter:blur(8px)}
+.card p{font-size:.95rem}
+
+/* labs */
+.labhead{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:14px}
+.labhead p{flex-basis:100%;background:var(--glass);padding:8px 14px;border-radius:16px;max-width:42em}
+.lab-grid{display:grid;gap:16px;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:start}
+.panel{background:var(--glass);border:2px solid var(--glass-b);border-radius:28px;padding:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:grid;gap:12px;min-width:0}
+.panel h3{font-size:1.35rem;font-weight:700}
+canvas.lab{width:100%;border-radius:20px;display:block;background:#07031a}
+#uniCv{height:clamp(260px,46vw,430px)}
+#dnaCv{height:clamp(170px,30vw,230px)}
+.caption{display:grid;gap:8px}
+.caption h3{font-size:1.5rem}
+.caption .row{display:grid;gap:6px;grid-template-columns:1fr 1fr}
+.caption .row .card{background:var(--glass-b)}
+.stagebar{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center}
+.starbtn{position:relative;width:84px;border:0;background:none;cursor:pointer;display:grid;justify-items:center;gap:2px;padding:0;font:700 .75rem/1.15 var(--f-body)}
+.starbtn svg{width:64px;height:64px;transition:transform .2s;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+.starbtn:hover svg{transform:scale(1.12) rotate(8deg)}
+.starbtn .n{position:absolute;top:21px;left:0;right:0;font:800 1.4rem/1 var(--f-display);color:var(--on-accent)}
+.starbtn[aria-pressed="false"] polygon{fill:var(--glass-b);stroke:var(--accent)}
+.starbtn[aria-pressed="false"] .n{color:var(--fg)}
+.starbtn[aria-pressed="true"] polygon{fill:var(--accent);stroke:var(--accent)}
+.starbtn[aria-pressed="true"] svg{animation:pulse 1.6s ease-in-out infinite}
+.starbtn span.l{max-width:84px;overflow-wrap:anywhere}
+.guide{display:grid;grid-template-columns:78px minmax(0,1fr);gap:10px;align-items:center}
+.guide .lion{animation:none;filter:none}
+.guide .bubble{min-height:0;font-size:.95rem;padding:10px 12px;grid-column:2}
+.guide .bubble::after{left:-9px;top:50%;bottom:auto;transform:translateY(-50%) rotate(135deg);width:14px;height:14px}
+.guide .chip{grid-column:1/-1;justify-self:start;min-height:40px}
+.atoms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 6px}
+.atom{display:grid;justify-items:center;gap:6px;background:none;border:0;cursor:pointer;padding:6px 0 0;font:700 .78rem/1.1 var(--f-body);text-align:center;min-width:0}
+.orb{position:relative;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--glass-b);border:3px solid var(--accent);font:800 1.15rem var(--f-display);transition:transform .15s}
+.orb::before,.orb::after{content:"";position:absolute;inset:-9px -3px;border:2px solid var(--line);border-radius:50%;transform:rotate(60deg)}
+.orb::after{transform:rotate(-60deg)}
+.atom:hover .orb{transform:scale(1.14)}
+.cnt{position:absolute;top:-8px;right:-8px;min-width:22px;height:22px;border-radius:99px;background:var(--accent);color:var(--on-accent);font:800 .75rem/22px var(--f-body);font-style:normal;text-align:center;padding:0 4px;z-index:2}
+.starprev{width:min(240px,70%);justify-self:center;aspect-ratio:1;display:block}
+.rays{transform-origin:100px 100px;animation:spin 16s linear infinite}
+.mixinfo{background:var(--glass-b);border-radius:18px;padding:10px 12px;font-size:.95rem;display:grid;gap:4px}
+.mixrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+
+/* human */
+.human-grid{display:grid;gap:16px;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);align-items:start}
+#bodySvg{width:100%;max-height:560px;display:block;margin:0 auto}
+.organ{cursor:pointer;outline:none}
+.organ:focus-visible .main{stroke:var(--accent);stroke-width:5}
+.organ .ring{fill:none;stroke:var(--accent);stroke-width:3;transform-box:fill-box;transform-origin:center;animation:ping 2.4s ease-out infinite}
+.organ.sel{filter:drop-shadow(0 0 8px var(--accent))}
+.organ.sel .ring{stroke-width:5}
+.organ:hover .main{transform:scale(1.06)}
+.organ .main{transform-box:fill-box;transform-origin:center;transition:transform .2s}
+.heart.beat .main{animation:beat .6s ease-out}
+.bones{opacity:0;transition:opacity .3s;pointer-events:none}
+.bones.show{opacity:1}
+.info{display:grid;gap:10px}
+.info h3{font-size:1.7rem}
+.pulsebox{display:grid;gap:8px;background:var(--glass-b);border-radius:18px;padding:10px 12px}
+.bigheart{justify-self:center;width:96px;height:96px;border-radius:50%;border:4px solid var(--accent);background:var(--glass);cursor:pointer;display:grid;place-items:center}
+.bigheart svg{width:56px;height:56px}
+.bigheart.beat svg{animation:beat .4s ease-out}
+.comp{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.comp li{display:grid;grid-template-columns:38px minmax(70px,110px) minmax(0,1fr) 52px;gap:8px;align-items:center;font-size:.9rem}
+.comp .sym2{font:800 1.05rem var(--f-display);width:38px;height:38px;border-radius:50%;border:3px solid var(--accent);display:grid;place-items:center;background:var(--glass-b)}
+.comp .bar2{height:14px;background:var(--glass-b);border-radius:99px;overflow:hidden;border:2px solid var(--line)}
+.comp .bar2 i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.comp b{text-align:right;font-variant-numeric:tabular-nums}
+
+/* dna */
+.strand{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.rung{display:grid;justify-items:center;gap:2px;padding:6px 4px;border-radius:16px;border:3px solid transparent;width:clamp(46px,12vw,64px)}
+.rung.active{border-color:var(--accent);background:var(--glass-b)}
+.rung .link{width:6px;height:14px;background:var(--line);border-radius:3px}
+.base,.slot{width:100%;aspect-ratio:1;border-radius:14px;display:grid;place-items:center;font:800 1.4rem var(--f-display);color:var(--on-accent)}
+:root:not([data-theme="dark"]) .base,:root:not([data-theme="dark"]) .slot{color:#1f1745}
+.b-A{background:var(--b-a)}.b-T{background:var(--b-t)}.b-C{background:var(--b-c)}.b-G{background:var(--b-g)}
+.slot{background:var(--glass-b);border:3px dashed var(--line);color:var(--muted)}
+.slot.on{border-style:solid;border-color:transparent;animation:pop .35s ease-out}
+.picks{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.basebtn{width:64px;height:64px;border-radius:50%;border:4px solid var(--glass-b);font:800 1.5rem var(--f-display);cursor:pointer;color:#1f1745;box-shadow:0 6px 0 rgba(0,0,0,.18);transition:transform .1s}
+.basebtn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.picks.shake{animation:shake .4s}
+.msg{min-height:3em;text-align:center;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.msg svg{width:22px;height:22px;flex:none}
+.facts{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.facts li{background:var(--glass-b);border-radius:16px;padding:10px 12px;font-size:.95rem}
+.foot{text-align:center;margin-top:28px;padding:12px;font-weight:700;background:var(--glass);border-radius:18px;backdrop-filter:blur(8px)}
+
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;z-index:30;background:var(--accent);color:var(--on-accent);font:800 1.05rem var(--f-display);padding:10px 18px;border-radius:99px;transition:all .35s;pointer-events:none;display:flex;gap:8px;align-items:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast svg{width:20px;height:20px}
+.spark{position:fixed;z-index:40;width:14px;height:14px;pointer-events:none;background:var(--accent);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:spark .9s ease-out forwards}
+
+/* title plate: solid surface so the sky never competes with the title */
+.plate{display:inline-block;justify-self:start;max-width:100%;position:relative;z-index:2;background:var(--plate-t);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--fg);padding:.1em .5em .16em;border-radius:24px;border:3px solid var(--glow);box-shadow:0 0 28px var(--glow2),0 0 60px var(--glow2);text-shadow:0 0 10px var(--glow),0 0 22px var(--glow),0 0 40px var(--glow2);font-weight:800;text-wrap:balance}
+.hero-copy h1{font-size:clamp(2rem,6vw,3.5rem)}
+.labhead h2{font-size:clamp(1.6rem,4.5vw,2.5rem)}
+.chip .slash{display:none}
+.chip[aria-pressed="false"] .slash{display:block}
+.chip.playing{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.hide-s{display:inline}
+
+/* leito cheer */
+.cheer{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:35;display:flex;align-items:flex-end;gap:8px;max-width:min(460px,calc(100vw - 32px))}
+.cheer[hidden]{display:none}
+.cheer.in{animation:cheerin .5s cubic-bezier(.2,1.4,.4,1)}
+.cheer-lion{width:96px;flex:none}
+.cheer-lion .lion{animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+.cheer-bubble{position:relative;background:var(--plate);color:var(--fg);border:3px solid var(--accent);border-radius:22px;padding:12px 16px;display:grid;gap:2px;font-weight:700;margin-bottom:38px;box-shadow:0 8px 0 rgba(0,0,0,.14);min-width:0}
+.cheer-bubble b{font:800 1.3rem/1.1 var(--f-display);color:var(--fg)}
+.cheer-bubble::before{content:"";position:absolute;left:-12px;bottom:20px;width:18px;height:18px;background:var(--plate);border-left:3px solid var(--accent);border-bottom:3px solid var(--accent);transform:rotate(45deg)}
+.cheer-x{position:absolute;top:-14px;right:-8px;width:40px;height:40px;border-radius:50%;border:3px solid var(--accent);background:var(--plate);color:var(--fg);cursor:pointer;display:grid;place-items:center;padding:0}
+.cheer-x svg{width:18px;height:18px}
+@keyframes cheerin{from{transform:translateY(60px) scale(.85);opacity:0}to{transform:none;opacity:1}}
+
+/* music lab */
+#musCv{height:clamp(200px,34vw,300px)}
+.keys{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
+.pkey{position:relative;height:clamp(110px,16vw,150px);border:4px solid var(--plate);border-radius:20px 20px 28px 28px;background:var(--kc);cursor:pointer;display:grid;align-items:end;justify-items:center;padding:0 0 8px;box-shadow:0 7px 0 rgba(0,0,0,.22);transition:transform .08s,box-shadow .08s;min-width:0}
+.pkey::before{content:"";position:absolute;top:12px;left:50%;width:24px;height:24px;transform:translateX(-50%);background:rgba(255,255,255,.8);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.pkey:active,.pkey.hit{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.22)}
+.pkey .kl{min-width:62%;display:grid;gap:3px;justify-items:center;background:var(--plate);color:var(--fg);border-radius:12px;padding:4px 6px;min-width:0;max-width:100%}
+.pkey .kl b{font:800 clamp(.8rem,2.4vw,1.1rem)/1 var(--f-display)}
+.pkey .kl small{font:800 .65rem/1 var(--f-body);opacity:.8}
+@media (pointer:coarse){.kbdhint{display:none}}
+.inst{display:flex;flex-wrap:wrap;gap:8px}
+.seq{display:grid;grid-template-columns:34px repeat(8,minmax(0,1fr));gap:5px;align-items:center}
+.rowlab{font:800 .8rem var(--f-display);text-align:center}
+.cell{height:42px;min-width:0;padding:0;border-radius:12px;border:3px solid var(--line);background:var(--glass-b);cursor:pointer;transition:transform .1s}
+.cell:hover{transform:scale(1.06)}
+.cell.on{background:var(--rc);border-color:var(--plate)}
+.cell.cur{outline:4px solid var(--accent);outline-offset:1px}
+.cell.on.cur{transform:scale(1.12)}
+@media (max-width:560px){
+  .top{position:static}
+  .strand{gap:4px;flex-wrap:nowrap}
+  .rung{width:clamp(36px,11.5vw,64px);padding:6px 2px}
+  .base,.slot{font-size:1.15rem;border-radius:11px}
+  .labbtn .shape{width:min(110px,100%)}
+  .wardrobe .chip{padding:8px 4px}
+  .keys{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .pkey{height:96px}
+  .hide-s{display:none}
+}
+
+/* mobile tutorial */
+html:not([data-mobile]) #tutBtn,html:not([data-mobile]) .mob-only{display:none}
+.tut-again{display:flex;justify-content:center;margin-top:16px}
+html.tut-open{overflow:hidden}
+.tut{position:fixed;inset:0;z-index:60;overflow-y:auto;overscroll-behavior:contain;background:linear-gradient(180deg,var(--tut1),var(--tut2));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.tut[hidden]{display:none}
+.tut-in{min-height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:max(14px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(18px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.tut-top{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tut-lion{width:min(120px,32vw);transition:width .3s}
+.tut-lion.big{width:min(250px,62vw)}
+.tut-lion .lion{animation:bob 3.2s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(0,0,0,.22))}
+.tut-lion.hop .lion{animation:hop .6s ease-out}
+.tut-card{position:relative;width:100%;background:var(--plate);color:var(--fg);border:3px solid var(--accent);border-radius:26px;padding:18px 16px 16px;display:grid;gap:12px;box-shadow:0 8px 0 rgba(0,0,0,.14)}
+.tut-card::before{content:"";position:absolute;top:-13px;left:50%;width:20px;height:20px;background:var(--plate);border-left:3px solid var(--accent);border-top:3px solid var(--accent);transform:translateX(-50%) rotate(45deg)}
+.tut-card h2{font-size:1.55rem;font-weight:800}
+.tut-card p{font-size:1.02rem;line-height:1.5}
+.tut-vis{display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:center;align-items:center}
+.tut-vis:empty{display:none}
+.tut-vis .fake{pointer-events:none;min-height:40px;padding:0 12px;font-size:.88rem}
+.tut-vis .t-ico{width:58px;height:58px;display:block}
+.tut-vis .t-ico svg{width:100%;height:100%}
+.t-labs{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.t-lab{display:flex;align-items:center;gap:8px;background:var(--glass-b);border:2px solid var(--line);border-radius:18px;padding:6px 8px;min-width:0}
+.t-lab .t-ico{width:44px;height:44px;flex:none}
+.t-lab b{font:800 .85rem/1.15 var(--f-display);min-width:0}
+.tut .slash{display:none}
+.tut-dots{display:flex;gap:6px;justify-content:center}
+.tut-dots i{width:10px;height:10px;border-radius:50%;background:var(--line);transition:all .2s}
+.tut-dots i.on{width:28px;border-radius:6px;background:var(--accent)}
+.tut-next{min-height:54px;font-size:1.15rem;font-family:var(--f-display);font-weight:800;background:var(--accent);color:var(--on-accent);border-color:transparent;width:100%}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes hop{0%{transform:translateY(0)}35%{transform:translateY(-30px) rotate(-3deg)}70%{transform:translateY(0) rotate(2deg)}100%{transform:none}}
+@keyframes wag{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(10deg)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{0%{transform:scale(.85);opacity:.4}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes ping{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+@keyframes beat{0%{transform:scale(1)}30%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes spark{0%{transform:translate(0,0) scale(1) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.3) rotate(240deg);opacity:0}}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "lion" "labs" "note"}
+  .lab-grid,.human-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .bar{justify-content:center}
+  .labs{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .note{grid-template-columns:1fr}
+  .caption .row{grid-template-columns:1fr}
+  .comp li{grid-template-columns:34px minmax(0,1fr) 46px}
+  .comp .bar2{grid-column:1/-1;order:5}
+  .comp li{row-gap:4px}
+  .atoms{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="#home" id="logo">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="var(--accent)" stroke-width="7"><ellipse cx="50" cy="50" rx="44" ry="17"/><ellipse cx="50" cy="50" rx="44" ry="17" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="44" ry="17" transform="rotate(120 50 50)"/></g><circle cx="50" cy="50" r="12" fill="var(--teal)"/></svg>
+      <span>Edén Lab</span>
+    </a>
+    <div class="ctl">
+      <div class="counter" id="counter" role="status"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon id="ctrStar" fill="currentColor"/></svg><span id="starCount">0</span></div>
+      <button class="chip" id="langBtn" type="button"><span class="lg" data-l="en">English</span><span aria-hidden="true">/</span><span class="lg" data-l="es">Español</span></button>
+      <button class="chip" id="cbBtn" type="button" aria-pressed="false" data-i18n-aria="cb">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+        <span class="hide-s" data-i18n="cb"></span>
+      </button>
+      <button class="chip" id="musicBtn" type="button" aria-pressed="true" data-i18n-aria="music.aria">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="3" fill="currentColor"/><circle cx="17.5" cy="16" r="3" fill="currentColor"/><path class="slash" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        <span class="hide-s" data-i18n="music"></span>
+      </button>
+      <button class="chip" id="sfxBtn" type="button" aria-pressed="true" data-i18n-aria="sfx.aria">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.500a8 8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path class="slash" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        <span class="hide-s" data-i18n="sfx"></span>
+      </button>
+      <button class="chip" id="tutBtn" type="button" data-i18n-aria="tut.aria">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.500" fill="none" stroke="currentColor" stroke-width="2.400"/><path d="M9.200 9.300a2.900 2.900 0 1 1 4.400 2.500c-1 .6-1.600 1.100-1.600 2.300" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round"/><circle cx="12" cy="17.300" r="1.400" fill="currentColor"/></svg>
+      </button>
+      <div class="seg" role="group" data-i18n-aria="theme.aria">
+        <button id="dayBtn" type="button" aria-pressed="true" data-i18n-aria="day.aria">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></g></svg>
+        </button>
+        <button id="nightBtn" type="button" aria-pressed="false" data-i18n-aria="night.aria">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section id="v-home" class="view">
+  <div class="hero">
+    <div class="hero-copy">
+      <h1 class="plate" data-i18n="h1"></h1>
+      <p data-i18n="lead"></p>
+    </div>
+
+    <div class="lion-stage">
+      <div class="bubble" id="say" role="status"></div>
+      <button class="lion-btn" id="lionBtn" type="button" data-i18n-aria="lion.aria"><span class="lion-slot"></span></button>
+      <svg class="island" viewBox="0 0 400 150" aria-hidden="true">
+        <path d="M30 40 C60 120 150 130 200 148 C250 130 340 120 370 40Z" fill="#8f6bb3"/>
+        <path d="M120 70 C140 110 180 120 200 140 C190 110 170 100 150 70Z" fill="#7a58a0" opacity=".6"/>
+        <rect x="300" y="42" width="10" height="70" rx="5" fill="#fff" opacity=".6"/>
+        <ellipse cx="200" cy="40" rx="172" ry="26" fill="var(--leaf)"/>
+        <ellipse cx="200" cy="34" rx="150" ry="16" fill="#fff" opacity=".12"/>
+        <g fill="var(--pink)"><circle cx="70" cy="38" r="5"/><circle cx="100" cy="46" r="4"/><circle cx="330" cy="40" r="5"/></g>
+        <g fill="var(--gold)"><circle cx="86" cy="32" r="4"/><circle cx="312" cy="48" r="4"/></g>
+      </svg>
+      <div class="wardrobe" role="group" id="wardrobe"></div>
+    </div>
+
+    <div class="labs-wrap">
+      <h2 data-i18n="pick"></h2>
+      <nav class="labs" id="labs"></nav>
+    </div>
+
+    <div class="note">
+      <div class="card"><span class="tag sci" data-i18n="sci"></span><p data-i18n="note.sci"></p></div>
+      <div class="card"><span class="tag faith" data-i18n="faith"></span><p data-i18n="note.faith"></p></div>
+    </div>
+  </div>
+<div class="mob-only tut-again"><button class="chip" id="tutBtn2" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.500" fill="none" stroke="currentColor" stroke-width="2.400"/><path d="M9.200 9.300a2.900 2.900 0 1 1 4.400 2.500c-1 .6-1.600 1.100-1.600 2.300" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round"/><circle cx="12" cy="17.300" r="1.400" fill="currentColor"/></svg><span data-i18n="tut.again"></span></button></div>
+</section>
+
+<!-- UNIVERSE -->
+<section id="v-universo" class="view" hidden>
+  <div class="labhead">
+    <a class="chip" href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="back"></span></a>
+    <h2 class="plate" data-i18n="uni.h"></h2>
+    <p data-i18n="uni.sub"></p>
+  </div>
+  <div class="lab-grid">
+    <div class="panel">
+      <canvas class="lab" id="uniCv" aria-label="Animación del universo"></canvas>
+      <div class="stagebar" id="stagebar"></div>
+      <div class="caption" id="uniCap" aria-live="polite"></div>
+    </div>
+    <div style="display:grid;gap:16px;min-width:0">
+      <div class="panel">
+        <h3 data-i18n="mix.h"></h3>
+        <p data-i18n="mix.sub"></p>
+        <svg class="starprev" id="starPrev" viewBox="0 0 200 200" role="img" aria-hidden="true"></svg>
+        <div class="atoms" id="atoms"></div>
+        <div class="mixinfo" id="mixInfo" aria-live="polite"></div>
+      </div>
+      <div class="panel guide" data-guide="uni"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HUMAN -->
+<section id="v-humano" class="view" hidden>
+  <div class="labhead">
+    <a class="chip" href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="back"></span></a>
+    <h2 class="plate" data-i18n="hum.h"></h2>
+    <p data-i18n="hum.sub"></p>
+  </div>
+  <div class="human-grid">
+    <div class="panel">
+      <svg id="bodySvg" viewBox="0 0 300 470" role="group" data-i18n-aria="hum.h">
+        <defs>
+          <g id="limbs"><path d="M108 168 Q72 218 82 288"/><path d="M192 168 Q228 218 218 288"/><path d="M128 300 L122 438"/><path d="M172 300 L178 438"/></g>
+        </defs>
+        <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <use href="#limbs" stroke="var(--sil-line)" stroke-width="36"/>
+          <use href="#limbs" stroke="var(--silfill)" stroke-width="29"/>
+        </g>
+        <rect x="102" y="138" width="96" height="176" rx="42" fill="var(--silfill)" stroke="var(--sil-line)" stroke-width="3"/>
+        <circle cx="150" cy="90" r="54" fill="var(--silfill)" stroke="var(--sil-line)" stroke-width="3"/>
+        <path d="M137 130 Q150 141 163 130" fill="none" stroke="var(--sil-line)" stroke-width="4" stroke-linecap="round"/>
+
+        <g class="bones" id="bones" fill="none" stroke="var(--fg)" stroke-width="5" stroke-linecap="round" opacity="0">
+          <circle cx="150" cy="90" r="46"/>
+          <path d="M150 146V300" stroke-dasharray="2 9"/>
+          <path d="M150 172 Q122 172 112 192M150 190 Q124 190 114 210M150 208 Q128 208 118 226M150 226 Q132 226 124 240"/>
+          <path d="M150 172 Q178 172 188 192M150 190 Q176 190 186 210M150 208 Q172 208 182 226M150 226 Q168 226 176 240"/>
+          <path d="M116 298 Q150 322 184 298"/>
+          <path d="M108 172 Q74 218 82 284M192 172 Q226 218 218 284M128 306 L122 432M172 306 L178 432"/>
+        </g>
+
+        <g class="organ" id="o-lungs" data-o="lungs" tabindex="0" role="button">
+          <circle class="ring" cx="150" cy="205" r="38"/>
+          <g class="main"><path d="M150 146V180" stroke="var(--teal)" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M140 160 Q116 166 112 212 Q112 246 134 246 Q147 244 147 214Z" fill="var(--teal)"/>
+          <path d="M160 160 Q184 166 188 212 Q188 246 166 246 Q153 244 153 214Z" fill="var(--teal)"/></g>
+        </g>
+        <g class="organ heart" id="o-heart" data-o="heart" data-nosfx tabindex="0" role="button">
+          <circle class="ring" cx="150" cy="222" r="22"/>
+          <g class="main"><path d="M0 22 C-26 4 -20 -18 -4 -12 C0 -10 0 -6 0 -6 C0 -6 0 -10 4 -12 C20 -18 26 4 0 22Z" transform="translate(150 218)" fill="var(--red)" stroke="#fff" stroke-width="2.5"/></g>
+        </g>
+        <g class="organ" id="o-brain" data-o="brain" tabindex="0" role="button">
+          <circle class="ring" cx="150" cy="74" r="30"/>
+          <g class="main"><path d="M120 76 Q118 48 150 48 Q182 48 180 76 Q182 96 160 97 Q150 102 140 97 Q118 96 120 76Z" fill="var(--pink)" stroke="#fff" stroke-width="2.5"/>
+          <path d="M150 50V96M132 66Q142 72 150 66M168 66Q158 72 150 66M130 82Q140 86 150 82M170 82Q160 86 150 82" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".85"/></g>
+        </g>
+        <g class="organ" id="o-eyes" data-o="eyes" tabindex="0" role="button">
+          <circle class="ring" cx="150" cy="111" r="36" style="stroke-width:3"/>
+          <g class="main"><ellipse cx="132" cy="111" rx="13" ry="9" fill="#fff"/><circle cx="132" cy="111" r="6" fill="var(--sky)"/><circle cx="132" cy="111" r="2.6" fill="#1b1140"/>
+          <ellipse cx="168" cy="111" rx="13" ry="9" fill="#fff"/><circle cx="168" cy="111" r="6" fill="var(--sky)"/><circle cx="168" cy="111" r="2.6" fill="#1b1140"/></g>
+        </g>
+        <g class="organ" id="o-bones" data-o="bones" tabindex="0" role="button">
+          <circle class="ring" cx="150" cy="320" r="26"/>
+          <g class="main"><rect x="124" y="304" width="52" height="30" rx="15" fill="var(--glass-b)" stroke="var(--fg)" stroke-width="3"/>
+          <path d="M136 319h28M136 312l-4-4M164 312l4-4M136 326l-4 4M164 326l4 4" stroke="var(--fg)" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+        </g>
+      </svg>
+    </div>
+    <div style="display:grid;gap:16px;min-width:0">
+      <div class="panel info" id="orgInfo" aria-live="polite"></div>
+      <div class="panel">
+        <h3 data-i18n="comp.h"></h3>
+        <ul class="comp" id="comp"></ul>
+        <p data-i18n="comp.note"></p>
+      </div>
+      <div class="panel guide" data-guide="hum"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DNA -->
+<section id="v-adn" class="view" hidden>
+  <div class="labhead">
+    <a class="chip" href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="back"></span></a>
+    <h2 class="plate" data-i18n="adn.h"></h2>
+    <p data-i18n="adn.sub"></p>
+  </div>
+  <div class="lab-grid">
+    <div class="panel">
+      <canvas class="lab" id="dnaCv" aria-label="Doble hélice de ADN"></canvas>
+      <div class="strand" id="strand"></div>
+      <div class="picks" id="picks"></div>
+      <div class="msg" id="dnaMsg" role="status" aria-live="polite"></div>
+      <div class="mixrow"><span><b data-i18n="adn.count"></b>: <b id="dnaCount">0</b></span><button class="chip" id="newStrand" type="button" data-i18n="adn.new"></button></div>
+    </div>
+    <div style="display:grid;gap:16px;min-width:0">
+      <div class="panel">
+        <h3 data-i18n="adn.facts"></h3>
+        <ul class="facts" id="dnaFacts"></ul>
+        <div class="card"><span class="tag faith" data-i18n="faith"></span><p id="dnaFaith"></p></div>
+      </div>
+      <div class="panel guide" data-guide="adn"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MUSIC -->
+<section id="v-musica" class="view" hidden>
+  <div class="labhead">
+    <a class="chip" href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="back"></span></a>
+    <h2 class="plate" data-i18n="mus.h"></h2>
+    <p data-i18n="mus.sub"></p>
+  </div>
+  <div class="lab-grid">
+    <div class="panel">
+      <canvas class="lab" id="musCv" aria-label="Onda de sonido"></canvas>
+      <div class="keys" id="keys"></div>
+      <div class="inst" id="inst" role="group" data-i18n-aria="inst.aria"></div>
+      <div class="mixinfo" id="noteInfo" aria-live="polite"></div>
+    </div>
+    <div style="display:grid;gap:16px;min-width:0">
+      <div class="panel">
+        <h3 data-i18n="seq.h"></h3>
+        <p data-i18n="seq.sub"></p>
+        <div class="seq" id="seq" role="group" data-i18n-aria="seq.h"></div>
+        <div class="mixrow"><button class="chip" id="seqPlay" type="button" data-nosfx></button><button class="chip" id="seqClear" type="button" data-i18n="seq.clear"></button></div>
+      </div>
+      <div class="panel">
+        <div class="card"><span class="tag sci" data-i18n="sci"></span><p data-i18n="mus.sci"></p></div>
+        <div class="card"><span class="tag faith" data-i18n="faith"></span><p data-i18n="mus.faith"></p></div>
+      </div>
+      <div class="panel guide" data-guide="mus"></div>
+    </div>
+  </div>
+</section>
+
+<p class="foot" data-i18n="foot"></p>
+</main>
+
+<div id="toast" aria-live="polite"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon id="toastStar" fill="currentColor"/></svg><span id="toastTxt"></span></div>
+
+<div id="tut" class="tut" role="dialog" aria-modal="true" aria-labelledby="tutTitle" hidden>
+  <div class="tut-in">
+    <div class="tut-top">
+      <button class="chip" id="tutLang" type="button"><span class="lg" data-l="en">English</span><span aria-hidden="true">/</span><span class="lg" data-l="es">Español</span></button>
+      <button class="chip" id="tutSkip" type="button" data-i18n="tut.skip"></button>
+    </div>
+    <div class="tut-lion" id="tutLion" aria-hidden="true"></div>
+    <div class="tut-card">
+      <h2 id="tutTitle"></h2>
+      <p id="tutText"></p>
+      <div class="tut-vis" id="tutVis"></div>
+      <div class="tut-dots" id="tutDots" aria-hidden="true"></div>
+      <button class="chip tut-next" id="tutNext" type="button"></button>
+    </div>
+  </div>
+</div>
+
+<div id="cheer" class="cheer" role="status" aria-live="polite" hidden>
+  <div class="cheer-lion" aria-hidden="true"></div>
+  <div class="cheer-bubble"><b id="cheerN"></b><span id="cheerT"></span></div>
+  <button class="cheer-x" id="cheerX" type="button" data-nosfx data-i18n-aria="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="3.500" stroke-linecap="round"/></svg></button>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var root=document.documentElement;
+function sget(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function sset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var motionOK=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+function starPts(n,R,r,cx,cy){cx=cx==null?50:cx;cy=cy==null?50:cy;var p=[];for(var i=0;i<n*2;i++){var a=-Math.PI/2+i*Math.PI/n,rr=i%2?r:R;p.push((cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1))}return p.join(' ')}
+
+/* ---------- TEXT (ES / EN) ---------- */
+var UI={
+es:{
+'cb':'Daltónico','theme.aria':'Tema de color','day.aria':'Modo de día','night.aria':'Modo nocturno','stars.aria':'Estrellas ganadas',
+'h1':'Laboratorio de Edén',
+'lead':'¡Hola! Soy Leito. Aquí descubrirás cómo fueron hechos el universo, tu cuerpo, el código secreto de la vida y hasta la música. ¡Nada fue un accidente!',
+'pick':'Elige un laboratorio','dress':'Viste a Leito',
+'uni.name':'Creación del Universo','uni.desc':'Enciende la luz y mira nacer las estrellas',
+'hum.name':'Creación del Ser Humano','hum.desc':'Explora tu cuerpo por dentro',
+'adn.name':'Laboratorio de ADN','adn.desc':'Arma el código de la vida',
+'o.scientist':'Científico','o.chef':'Chef','o.engineer':'Ingeniero','o.artist':'Artista','o.farmer':'Agricultor','o.politician':'Político',
+'say.scientist':'¡Soy el Dr. Leito! Un científico hace preguntas y observa con mucho cuidado. Hoy vamos a descubrir cómo está hecho todo.',
+'say.chef':'¡Chef Leito al habla! Hasta una receta necesita ingredientes en orden. El universo también tiene la suya: hidrógeno, carbono, oxígeno…',
+'say.engineer':'Ingeniero Leito: todo funciona gracias a reglas. La gravedad y el ADN siguen un diseño muy ordenado.',
+'say.artist':'Artista Leito: ¡mira cuántos colores! Las nebulosas, el cielo y tus ojos son una obra preciosa.',
+'say.farmer':'Agricultor Leito: la tierra, la lluvia y el sol trabajan juntos para que crezca el alimento. En el Edén había que cuidar el jardín.',
+'say.politician':'Político Leito: un buen líder cuida a las personas y a la Tierra, y busca la justicia y la paz. ¡Tú también puedes servir a otros!',
+'lion.aria':'Leito, el león guía. Tócalo para escuchar algo nuevo.',
+'back':'Inicio','another':'Otro dato','sci':'Ciencia','faith':'Fe',
+'note.sci':'La ciencia investiga cómo funciona todo lo que existe.',
+'note.faith':'La fe nos recuerda que todo fue creado con amor y con propósito.',
+'uni.h':'Creación del Universo','uni.sub':'Toca las estrellas numeradas para viajar en el tiempo.',
+'mix.h':'Cocina de estrellas','mix.sub':'Toca los átomos para mezclar los ingredientes de tu estrella.',
+'mix.clear':'Vaciar','mix.empty':'Aún no hay ingredientes. ¡Toca un átomo!','mix.made':'Tu estrella tiene',
+'mix.many':'¡Cuántos ingredientes! Así son las estrellas que fabrican lo necesario para planetas y vida.',
+'hum.h':'Creación del Ser Humano','hum.sub':'Toca los órganos que brillan para explorarlos.',
+'comp.h':'¿De qué estás hecho?','comp.note':'Casi todos estos ingredientes se forjaron dentro de estrellas. ¡Estás hecho de polvo de estrellas!',
+'pulse.btn':'Mide tu pulso','pulse.help':'Toca el corazón con cada latido que sientas. Tienes 10 segundos.',
+'pulse.taps':'Latidos','pulse.left':'Segundos','pulse.res':'Tu pulso es de unos','pulse.bpm':'latidos por minuto.',
+'pulse.ref':'Un niño o niña de tu edad suele tener entre 70 y 100 en reposo.','pulse.again':'Medir otra vez',
+'adn.h':'Laboratorio de ADN','adn.sub':'Completa la escalera: cada letra tiene una pareja.',
+'adn.new':'Nueva cadena','adn.pick':'¿Cuál es la pareja de','adn.ok':'¡Correcto!','adn.no':'Casi. Recuerda: A con T y C con G.',
+'adn.done':'¡Escalera completa! Ganaste una estrella.','adn.idle':'Regla del código: A con T · C con G.',
+'adn.count':'Cadenas completadas','adn.facts':'Datos del código',
+'adn.faith':'Un libro de instrucciones no se escribe solo. Para quienes creemos, el ADN es una firma de amor del Creador (Salmo 139:13-14).',
+'toast':'+1 estrella',
+'music':'Música','music.aria':'Música de fondo','sfx':'Sonidos','sfx.aria':'Sonidos de los botones','close':'Cerrar',
+'mus.name':'Laboratorio de Música','mus.desc':'Toca, compón y mira cómo se ve el sonido',
+'mus.h':'Laboratorio de Música','mus.sub':'Toca las teclas de colores. Cada nota es una vibración distinta.',
+'mus.idle':'Toca una tecla para escuchar su nota.','mus.hz':'vibraciones por segundo (Hz). Más vibraciones, sonido más agudo.',
+'i.bell':'Campana','i.flute':'Flauta','i.harp':'Arpa','inst.aria':'Instrumento',
+'seq.h':'Compón tu melodía','seq.sub':'Enciende cuadros para crear una melodía. Ya hay una de ejemplo.',
+'seq.step':'paso','seq.play':'Tocar','seq.stop':'Parar','seq.clear':'Borrar',
+'mus.sci':'El sonido es vibración. Cuando algo vibra, mueve el aire y tus oídos lo detectan. Los humanos oímos más o menos entre 20 y 20,000 Hz.',
+'mus.faith':'El Salmo 150:6 dice que todo lo que respira alabe a Dios. ¡Tú puedes hacerlo con música!',
+'tut.skip':'Saltar','tut.next':'Siguiente','tut.go':'¡Empezar!','tut.again':'Ver tutorial otra vez','tut.aria':'Ver tutorial','tut.dn':'Día y noche','tut.cb':'Colores para daltónicos',
+'tut1.h':'¡Hola, soy Leito!','tut1.t':'Soy tu guía en el Laboratorio de Edén. Aquí vamos a descubrir cómo fueron hechos el universo, tu cuerpo y la música. ¡Te enseño cómo funciona todo!',
+'tut2.h':'Elige un laboratorio','tut2.t':'Hay cuatro: Universo, Ser Humano, ADN y Música. Toca el que quieras para entrar. Para volver, usa el botón Inicio.',
+'tut3.h':'Toca y descubre','tut3.t':'Toca las estrellas, los átomos y los órganos que brillan. Cada cosa nueva que descubres suma una estrella arriba. ¡Cada 10 estrellas te daré una sorpresa!',
+'tut4.h':'Viste a Leito','tut4.t':'Puedo vestirme de científico, chef, ingeniero, artista, agricultor o político. ¡Y si me tocas, te cuento algo nuevo!',
+'tut5.h':'Los botones de arriba','tut5.t':'Con ellos cambias el idioma, la música, los sonidos y el día o la noche. Tú decides cómo quieres jugar.',
+'tut6.h':'Un laboratorio para todos','tut6.t':'Este laboratorio está pensado con cariño para que todas las personas lo disfruten, también quienes ven los colores de otra manera. Casi todo tiene letras y símbolos, además de colores. Si te ayuda, prueba la paleta para daltónicos y cámbiala cuando quieras.',
+'tut7.h':'¡Listo para explorar!','tut7.t':'Si quieres ver esta ayuda otra vez, toca el botón con el signo de interrogación (?). ¡Vamos a descubrir juntos!',
+'foot':'La ciencia nos explica el cómo. La fe nos recuerda el para qué.'
+},
+en:{
+'cb':'Colorblind','theme.aria':'Color theme','day.aria':'Day mode','night.aria':'Night mode','stars.aria':'Stars earned',
+'h1':'Eden Laboratory',
+'lead':"Hi! I'm Leito. Here you will discover how the universe, your body, the secret code of life and even music were made. Nothing was an accident!",
+'pick':'Pick a lab','dress':'Dress up Leito',
+'uni.name':'Creation of the Universe','uni.desc':'Turn on the light and watch stars appear',
+'hum.name':'Creation of the Human Being','hum.desc':'Explore your body from the inside',
+'adn.name':'DNA Laboratory','adn.desc':'Build the code of life',
+'o.scientist':'Scientist','o.chef':'Chef','o.engineer':'Engineer','o.artist':'Artist','o.farmer':'Farmer','o.politician':'Politician',
+'say.scientist':"I'm Dr. Leito! A scientist asks questions and watches very carefully. Today we will discover how everything is made.",
+'say.chef':"Chef Leito here! Even a recipe needs its ingredients in order. The universe has one too: hydrogen, carbon, oxygen…",
+'say.engineer':'Engineer Leito: everything works thanks to rules. Gravity and DNA follow a very orderly design.',
+'say.artist':'Artist Leito: look at all those colors! Nebulas, the sky and your eyes are a beautiful work of art.',
+'say.farmer':'Farmer Leito: soil, rain and sun work together so food can grow. In Eden, the garden was meant to be cared for.',
+'say.politician':'Politician Leito: a good leader looks after people and the Earth, and seeks justice and peace. You can serve others too!',
+'lion.aria':'Leito, the guide lion. Tap him to hear something new.',
+'back':'Home','another':'Another fact','sci':'Science','faith':'Faith',
+'note.sci':'Science investigates how everything that exists works.',
+'note.faith':'Faith reminds us that everything was made with love and purpose.',
+'uni.h':'Creation of the Universe','uni.sub':'Tap the numbered stars to travel through time.',
+'mix.h':'Star kitchen','mix.sub':'Tap the atoms to mix the ingredients of your star.',
+'mix.clear':'Clear','mix.empty':'No ingredients yet. Tap an atom!','mix.made':'Your star has',
+'mix.many':'So many ingredients! Stars like this make what planets and life need.',
+'hum.h':'Creation of the Human Being','hum.sub':'Tap the glowing organs to explore them.',
+'comp.h':'What are you made of?','comp.note':'Almost all of these ingredients were forged inside stars. You are made of stardust!',
+'pulse.btn':'Measure your pulse','pulse.help':'Tap the heart with every beat you feel. You have 10 seconds.',
+'pulse.taps':'Beats','pulse.left':'Seconds','pulse.res':'Your pulse is about','pulse.bpm':'beats per minute.',
+'pulse.ref':'A child your age usually has 70 to 100 while resting.','pulse.again':'Measure again',
+'adn.h':'DNA Laboratory','adn.sub':'Complete the ladder: every letter has a partner.',
+'adn.new':'New strand','adn.pick':"What is the partner of",'adn.ok':'Correct!','adn.no':'Almost. Remember: A with T and C with G.',
+'adn.done':'Ladder complete! You earned a star.','adn.idle':'Code rule: A with T · C with G.',
+'adn.count':'Strands completed','adn.facts':'Code facts',
+'adn.faith':'A book of instructions does not write itself. For those of us who believe, DNA is a love signature of the Creator (Psalm 139:13-14).',
+'toast':'+1 star',
+'music':'Music','music.aria':'Background music','sfx':'Sounds','sfx.aria':'Button sounds','close':'Close',
+'mus.name':'Music Laboratory','mus.desc':'Play, compose and see what sound looks like',
+'mus.h':'Music Laboratory','mus.sub':'Tap the colored keys. Every note is a different vibration.',
+'mus.idle':'Tap a key to hear its note.','mus.hz':'vibrations per second (Hz). More vibrations, a higher sound.',
+'i.bell':'Bell','i.flute':'Flute','i.harp':'Harp','inst.aria':'Instrument',
+'seq.h':'Compose your melody','seq.sub':'Turn on squares to make a melody. There is an example one already.',
+'seq.step':'step','seq.play':'Play','seq.stop':'Stop','seq.clear':'Clear',
+'mus.sci':'Sound is vibration. When something vibrates, it moves the air and your ears detect it. Humans hear roughly between 20 and 20,000 Hz.',
+'mus.faith':'Psalm 150:6 says let everything that breathes praise God. You can do it with music!',
+'tut.skip':'Skip','tut.next':'Next','tut.go':"Let's go!",'tut.again':'See the tutorial again','tut.aria':'See tutorial','tut.dn':'Day and night','tut.cb':'Colors for colorblind people',
+'tut1.h':"Hi, I'm Leito!",'tut1.t':"I'm your guide in the Eden Laboratory. Here we will discover how the universe, your body and music were made. I'll show you how everything works!",
+'tut2.h':'Pick a lab','tut2.t':'There are four: Universe, Human Being, DNA and Music. Tap the one you like to go in. To come back, use the Home button.',
+'tut3.h':'Tap and discover','tut3.t':'Tap the stars, the atoms and the glowing organs. Every new thing you discover adds a star at the top. Every 10 stars I will give you a surprise!',
+'tut4.h':'Dress up Leito','tut4.t':'I can dress as a scientist, chef, engineer, artist, farmer or politician. And if you tap me, I will tell you something new!',
+'tut5.h':'The buttons at the top','tut5.t':'With them you change the language, the music, the sounds and day or night. You decide how you want to play.',
+'tut6.h':'A lab for everyone','tut6.t':'This lab was made with care so that everyone can enjoy it, including people who see colors in a different way. Almost everything has letters and symbols, not only colors. If it helps you, try the colorblind palette and switch it whenever you like.',
+'tut7.h':'Ready to explore!','tut7.t':'If you want to see this help again, tap the button with the question mark (?). Let us discover together!',
+'foot':'Science explains the how. Faith reminds us of the why.'
+}};
+var DATA={
+es:{
+stages:[
+{n:'Antes de todo',s:'Todo está en silencio y a oscuras. Toca la estrella 1 para encender la luz.',f:''},
+{n:'Hágase la luz',s:'Hace unos 13,800 millones de años el universo empezó muy pequeño y muy caliente, y comenzó a crecer. Los científicos lo llaman Big Bang.',f:'Génesis 1:3 cuenta que Dios habló y apareció la luz. Todo comenzó con un plan.'},
+{n:'Nubes de gas',s:'Al enfriarse se formaron átomos de hidrógeno y helio. La gravedad los fue juntando en enormes nubes.',f:'Las leyes ordenadas, como la gravedad, son una pista de que todo fue pensado.'},
+{n:'Estrellas y galaxias',s:'Las nubes se juntaron y encendieron las primeras estrellas. Hay cientos de miles de millones de galaxias, muchas con miles de millones de estrellas.',f:'El Salmo 19:1 dice que los cielos cuentan la grandeza de Dios.'},
+{n:'Nuestro hogar',s:'Hace unos 4,600 millones de años nacieron el Sol y la Tierra. Estamos a la distancia justa del Sol para tener agua líquida.',f:'Para quienes creemos, la Tierra es un hogar preparado con cuidado. ¡Nada fue un accidente!'}
+],
+el:{
+H:{n:'Hidrógeno',t:'El más sencillo de todos y el combustible de las estrellas. También está en el agua de tu cuerpo.'},
+He:{n:'Helio',t:'Nació al inicio del universo y también dentro de las estrellas. Hace flotar los globos porque pesa menos que el aire.'},
+C:{n:'Carbono',t:'Está en todos los seres vivos. Se forja dentro de las estrellas.'},
+O:{n:'Oxígeno',t:'Lo respiras, y junto con el hidrógeno forma el agua. Se forja en estrellas grandes.'},
+N:{n:'Nitrógeno',t:'Es parte de tu ADN y de las proteínas que te hacen crecer.'},
+Ca:{n:'Calcio',t:'Hace fuertes tus huesos y tus dientes.'},
+Fe:{n:'Hierro',t:'Ayuda a tu sangre a llevar oxígeno. Se forma en estrellas enormes y se esparce cuando explotan.'},
+Si:{n:'Silicio',t:'Forma las rocas y la arena de los planetas.'}
+},
+compn:{O:'Oxígeno',C:'Carbono',H:'Hidrógeno',N:'Nitrógeno',Ca:'Calcio',P:'Fósforo',X:'Otros'},
+org:{
+brain:{n:'Cerebro',t:'Tiene unos 86,000 millones de neuronas conectadas entre sí. Te permite pensar, soñar, recordar y aprender.',f:'Salmo 139:14: fuiste hecho de manera asombrosa y maravillosa.'},
+eyes:{n:'Ojos',t:'Tus ojos enfocan en un instante y tu cerebro convierte la luz en imágenes. Puedes distinguir alrededor de un millón de colores.',f:'La luz fue lo primero que apareció (Génesis 1:3). ¡Tus ojos están hechos para verla!'},
+lungs:{n:'Pulmones',t:'Respiras unas 20,000 veces al día. Los pulmones pasan el oxígeno a tu sangre y sacan el dióxido de carbono.',f:'Génesis 2:7 dice que Dios sopló aliento de vida. Cada respiro es un regalo.'},
+heart:{n:'Corazón',t:'Late unas 100,000 veces al día. Empuja la sangre por vasos que, estirados, medirían casi 100,000 km.',f:'Tu corazón empezó a latir antes de que nacieras, sin que nadie se lo ordenara. Qué diseño tan cuidadoso.'},
+bones:{n:'Huesos',t:'Un bebé nace con unos 300 huesos blandos. Al crecer se unen y un adulto tiene 206. Protegen tus órganos y guardan calcio.',f:'Génesis 2:7: Dios formó al ser humano del polvo de la tierra. ¡Y esa tierra tiene elementos de estrellas!'}
+},
+tips:{
+uni:['La luz de algunas estrellas viajó cientos o miles de años hasta llegar a tus ojos.','El Sol es una estrella tan grande que cabrían más de un millón de Tierras dentro.','Casi todos los átomos de tu cuerpo, menos el hidrógeno, se forjaron en estrellas.'],
+hum:['Tu cuerpo tiene más de 30 billones de células.','Tu corazón late casi 3,000 millones de veces en una vida larga.','Tu piel se renueva todo el tiempo, sin que te des cuenta.'],
+mus:['Cuanto más rápido vibra algo, más agudo suena.','El hueso más pequeño del cuerpo está en tu oído y mide unos 3 milímetros.','La nota La, con 440 vibraciones por segundo, se usa para afinar instrumentos.'],
+adn:['El ADN tiene forma de escalera retorcida. Se llama doble hélice.','Su forma se descubrió en 1953, con la ayuda de las fotos de Rosalind Franklin.','Tú tienes el ADN de tu mamá y de tu papá, mezclado de una forma única.']
+},
+praise:['¡Qué inteligente eres!','Eres muy perseverante. ¡No te rindes!','¡Qué responsable! Cuidas lo que aprendes.','Qué gran curiosidad, me encanta.','¡Qué valiente eres al probar cosas nuevas!','Tu esfuerzo brilla como una estrella.','Qué gran imaginación tienes.','Haces que aprender sea una aventura.','Qué gran corazón tienes.','¡Increíble! Cada día aprendes algo nuevo.','Me alegra mucho aprender contigo.','Tu constancia me inspira.'],
+chat:['¡Hola de nuevo! ¿Quieres ver cómo nacen las estrellas?','¡Cosquillas! Mejor elige un laboratorio y descubre algo nuevo.','¿Sabías que estás hecho de polvo de estrellas?','Cada vez que aprendes algo, ganas una estrella. ¡Ya casi tienes más que yo!'],
+dna:['El ADN es un manual de instrucciones escrito con solo 4 letras: A, T, C y G.','Si estiraras el ADN de una sola célula, mediría casi 2 metros. ¡Y cabe en algo invisible!','Tu ADN tiene unos 3,000 millones de pares de letras. Dos personas comparten el 99.9% de su ADN.','Cada célula de tu cuerpo lleva una copia de tu manual. Y tú eres único o única.']
+},
+en:{
+stages:[
+{n:'Before everything',s:'Everything is silent and dark. Tap star 1 to turn on the light.',f:''},
+{n:'Let there be light',s:'About 13.8 billion years ago the universe began very small and very hot, and started to grow. Scientists call it the Big Bang.',f:'Genesis 1:3 says God spoke and light appeared. Everything began with a plan.'},
+{n:'Gas clouds',s:'As it cooled, atoms of hydrogen and helium formed. Gravity slowly pulled them into huge clouds.',f:'Orderly laws, like gravity, are a clue that everything was thought out.'},
+{n:'Stars and galaxies',s:'The clouds came together and lit the first stars. There are hundreds of billions of galaxies, many with billions of stars.',f:'Psalm 19:1 says the heavens tell of the greatness of God.'},
+{n:'Our home',s:'About 4.6 billion years ago the Sun and the Earth were born. We are at just the right distance from the Sun to have liquid water.',f:'For those of us who believe, Earth is a home prepared with care. Nothing was an accident!'}
+],
+el:{
+H:{n:'Hydrogen',t:'The simplest of all and the fuel of the stars. It is also in the water of your body.'},
+He:{n:'Helium',t:'Born at the start of the universe and also inside stars. It makes balloons float because it is lighter than air.'},
+C:{n:'Carbon',t:'It is in every living thing. It is forged inside stars.'},
+O:{n:'Oxygen',t:'You breathe it, and together with hydrogen it makes water. It is forged in big stars.'},
+N:{n:'Nitrogen',t:'It is part of your DNA and of the proteins that help you grow.'},
+Ca:{n:'Calcium',t:'It makes your bones and teeth strong.'},
+Fe:{n:'Iron',t:'It helps your blood carry oxygen. It forms in huge stars and spreads out when they explode.'},
+Si:{n:'Silicon',t:'It makes up the rocks and sand of planets.'}
+},
+compn:{O:'Oxygen',C:'Carbon',H:'Hydrogen',N:'Nitrogen',Ca:'Calcium',P:'Phosphorus',X:'Others'},
+org:{
+brain:{n:'Brain',t:'It has about 86 billion neurons connected to each other. It lets you think, dream, remember and learn.',f:'Psalm 139:14: you were made in an amazing and wonderful way.'},
+eyes:{n:'Eyes',t:'Your eyes focus in an instant and your brain turns light into pictures. You can tell apart about a million colors.',f:'Light was the first thing to appear (Genesis 1:3). Your eyes are made to see it!'},
+lungs:{n:'Lungs',t:'You breathe about 20,000 times a day. Lungs pass oxygen into your blood and take out carbon dioxide.',f:'Genesis 2:7 says God breathed the breath of life. Every breath is a gift.'},
+heart:{n:'Heart',t:'It beats about 100,000 times a day. It pushes blood through vessels that, stretched out, would measure almost 100,000 km.',f:'Your heart began to beat before you were born, without anyone telling it to. What a careful design.'},
+bones:{n:'Bones',t:'A baby is born with about 300 soft bones. As you grow they join, and an adult has 206. They protect your organs and store calcium.',f:'Genesis 2:7: God formed the human being from the dust of the ground. And that dust has elements from stars!'}
+},
+tips:{
+uni:['The light of some stars traveled hundreds or thousands of years to reach your eyes.','The Sun is a star so big that more than a million Earths would fit inside.','Almost every atom in your body, except hydrogen, was forged in stars.'],
+hum:['Your body has more than 30 trillion cells.','Your heart beats almost 3 billion times in a long life.','Your skin renews itself all the time without you noticing.'],
+mus:['The faster something vibrates, the higher it sounds.','The smallest bone in the body is in your ear and measures about 3 millimeters.','The note A, at 440 vibrations per second, is used to tune instruments.'],
+adn:['DNA is shaped like a twisted ladder. It is called a double helix.','Its shape was discovered in 1953, with help from Rosalind Franklin\'s photos.','You have DNA from your mom and your dad, mixed in a unique way.']
+},
+praise:["How smart you are!","You are so persevering. You never give up!","So responsible! You take care of what you learn.","What great curiosity, I love it!","How brave you are to try new things!","Your effort shines like a star.","What a great imagination you have.","You turn learning into an adventure.","What a big heart you have.","Amazing! Every day you learn something new.","I am so happy to learn with you.","Your persistence inspires me."],
+chat:['Hello again! Want to see how stars are born?','Tickles! Better pick a lab and discover something new.','Did you know you are made of stardust?','Every time you learn something, you earn a star. You will soon have more than me!'],
+dna:['DNA is an instruction manual written with just 4 letters: A, T, C and G.','If you stretched the DNA of a single cell it would measure almost 2 meters. And it fits inside something invisible!','Your DNA has about 3 billion letter pairs. Any two people share 99.9% of their DNA.','Every cell in your body carries a copy of your manual. And you are one of a kind.']
+}};
+var lang=sget('eden.lang',((navigator.language||'es').toLowerCase().indexOf('en')===0)?'en':'es');
+function t(k){return (UI[lang][k]!=null)?UI[lang][k]:k}
+function d(){return DATA[lang]}
+
+/* ---------- state ---------- */
+var OUTFITS=['scientist','chef','engineer','artist','farmer','politician'];
+var outfit=sget('eden.outfit','scientist');
+var disc=sget('eden.disc',[]);
+var lastM=sget('eden.milestone',Math.floor(disc.length/10));
+var cur='home';
+var COL={};
+
+/* ---------- icons ---------- */
+var OICON={
+scientist:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2.2h12.4a1.5 1.5 0 0 0 1.3-2.2L14 9V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 15h9" stroke="currentColor" stroke-width="2"/></svg>',
+chef:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14a4 4 0 0 1-1-7.9A4.5 4.5 0 0 1 12 3a4.5 4.5 0 0 1 6 3.1A4 4 0 0 1 17 14v5H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 17h10" stroke="currentColor" stroke-width="2"/></svg>',
+engineer:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17a8 8 0 0 1 16 0z M2.5 17h19v2.5h-19z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 9v8" stroke="currentColor" stroke-width="2"/></svg>',
+artist:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.7 0 2-1.2 1.3-2.2-.8-1.200-.2-2.800 1.400-2.800H17a4 4 0 0 0 4-4C21 6.500 17 3 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="11" r="1.4" fill="currentColor"/><circle cx="12" cy="7.5" r="1.4" fill="currentColor"/><circle cx="16" cy="10" r="1.4" fill="currentColor"/></svg>',
+farmer:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V9M12 9c-3-.5-4-3-4-5 3 .5 4 3 4 5zM12 9c3-.5 4-3 4-5-3 .5-4 3-4 5zM12 15c-3-.5-4-3-4-5 3 .5 4 3 4 5zM12 15c3-.5 4-3 4-5-3 .5-4 3-4 5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+politician:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l-1.500 4 2 12-3.500 2-3.500-2 2-12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'
+};
+var LABS=[
+{id:'universo',k:'uni',sh:'<svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="'+starPts(5,47,21)+'" fill="var(--gold)" stroke="var(--gold)" stroke-width="9" stroke-linejoin="round"/><polygon points="'+starPts(5,34,15)+'" fill="#fff" opacity=".28"/><g fill="none" stroke="var(--on-accent)" stroke-width="3.5" stroke-linecap="round"><path d="M50 47a4 4 0 1 1-4 4"/><path d="M50 40a11 11 0 1 1-11 11"/><path d="M50 33a18 18 0 1 1-18 18" opacity=".6"/></g></svg>'},
+{id:'humano',k:'hum',sh:'<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="var(--pink)" stroke-width="5.5"><ellipse cx="50" cy="50" rx="45" ry="17"/><ellipse cx="50" cy="50" rx="45" ry="17" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="45" ry="17" transform="rotate(120 50 50)"/></g><circle cx="50" cy="50" r="17" fill="var(--pink)"/><path d="M0 9C-9 2-7-6-1-4 0-3 0-2 0-2S0-3 1-4C7-6 9 2 0 9Z" transform="translate(50 47)" fill="#fff"/><g class="spin"><circle cx="95" cy="50" r="6" fill="var(--gold)"/></g><g class="spin2"><circle cx="50" cy="5" r="5.500" fill="var(--sky)"/></g></svg>'},
+{id:'adn',k:'adn',sh:'<svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="'+starPts(8,48,31)+'" fill="var(--teal)" stroke="var(--teal)" stroke-width="7" stroke-linejoin="round"/><path d="M38 22C64 36 36 64 62 78M62 22C36 36 64 64 38 78" fill="none" stroke="#fff" stroke-width="5.500" stroke-linecap="round"/><path d="M43 31h14M40 50h20M43 69h14" stroke="var(--on-accent)" stroke-width="4" stroke-linecap="round"/></svg>'},
+{id:'musica',k:'mus',sh:'<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="var(--sky)" stroke-width="5.5"><ellipse cx="50" cy="50" rx="45" ry="17" transform="rotate(30 50 50)"/><ellipse cx="50" cy="50" rx="45" ry="17" transform="rotate(-30 50 50)"/></g><circle cx="50" cy="50" r="25" fill="var(--sky)"/><g fill="#fff"><ellipse cx="43" cy="59" rx="7.500" ry="5.500" transform="rotate(-20 43 59)"/><rect x="48" y="36" width="4.500" height="23"/><path d="M52 36q11 3 9 14q-4-6-9-6z"/></g><g class="spin"><circle cx="95" cy="50" r="6" fill="var(--gold)"/></g><g class="spin2"><circle cx="50" cy="6" r="5" fill="var(--pink)"/></g></svg>'}
+];
+
+/* ---------- lion ---------- */
+function lionSVG(){
+  var mane='';
+  for(var k=0;k<12;k++){var a=k*Math.PI/6;mane+='<circle cx="'+(100+46*Math.cos(a)).toFixed(1)+'" cy="'+(104+46*Math.sin(a)).toFixed(1)+'" r="21" fill="var(--lion-mane)"/>'}
+  var s='<svg class="lion" viewBox="0 0 200 232" aria-hidden="true">';
+  s+='<g class="tail"><path d="M138 192Q180 192 176 152Q175 140 168 142" fill="none" stroke="var(--lion-body)" stroke-width="9" stroke-linecap="round"/><circle cx="167" cy="139" r="10" fill="var(--lion-mane)"/></g>';
+  s+='<ellipse cx="100" cy="178" rx="46" ry="44" fill="var(--lion-body)"/><ellipse cx="100" cy="188" rx="26" ry="28" fill="var(--lion-belly)"/>';
+  s+='<ellipse cx="72" cy="218" rx="17" ry="10" fill="var(--lion-body)"/><ellipse cx="128" cy="218" rx="17" ry="10" fill="var(--lion-body)"/>';
+  /* outfits: body */
+  s+='<g class="o o-scientist"><path d="M60 148Q100 162 140 148L150 216Q100 228 50 216Z" fill="#fff" stroke="#d3dcf0" stroke-width="2"/><path d="M100 154L88 188M100 154L112 188" stroke="#c4cde6" stroke-width="2" fill="none"/><rect x="113" y="190" width="18" height="14" rx="3" fill="#eaf0fb" stroke="#c4cde6"/><rect x="117" y="180" width="4" height="14" rx="2" fill="var(--teal)"/></g>';
+  s+='<g class="o o-chef"><path d="M70 150L130 150L138 216Q100 224 62 216Z" fill="#fff" stroke="#d3dcf0" stroke-width="2"/><path d="M78 144Q100 160 122 144L114 152Q100 170 86 152Z" fill="var(--red)"/><rect x="86" y="188" width="28" height="16" rx="4" fill="#eaf0fb" stroke="#c4cde6"/></g>';
+  s+='<g class="o o-engineer"><path d="M62 150Q100 164 138 150L148 216Q100 226 52 216Z" fill="var(--orange)"/><path d="M60 188L142 188L144 198L58 198Z" fill="#fff6a8"/><path d="M92 156L100 170L108 156" fill="none" stroke="#fff6a8" stroke-width="4" stroke-linejoin="round"/></g>';
+  s+='<g class="o o-artist"><path d="M62 150Q100 164 138 150L148 216Q100 226 52 216Z" fill="var(--sky)"/><circle cx="84" cy="190" r="6" fill="var(--pink)"/><circle cx="112" cy="200" r="5" fill="var(--gold)"/><circle cx="96" cy="170" r="4" fill="var(--leaf)"/><circle cx="124" cy="176" r="4" fill="#fff"/></g>';
+  s+='<g class="o o-farmer"><path d="M66 158L134 158L142 216Q100 226 58 216Z" fill="#3f6fbf"/><path d="M76 160L82 140M124 160L118 140" stroke="#3f6fbf" stroke-width="8" stroke-linecap="round"/><rect x="88" y="176" width="24" height="16" rx="3" fill="#3359a0"/><circle cx="82" cy="166" r="3.500" fill="#ffd23f"/><circle cx="118" cy="166" r="3.500" fill="#ffd23f"/></g>';
+  s+='<g class="o o-politician"><path d="M60 148Q100 162 140 148L150 216Q100 228 50 216Z" fill="#2f3b5e"/><path d="M86 150L100 180L114 150Z" fill="#fff"/><path d="M96 154H104L106 162L100 198L94 162Z" fill="var(--red)"/><circle cx="124" cy="170" r="4" fill="var(--gold)"/></g>';
+  /* paws */
+  s+='<ellipse cx="58" cy="176" rx="12" ry="18" fill="var(--lion-body)" transform="rotate(14 58 176)"/><ellipse cx="142" cy="176" rx="12" ry="18" fill="var(--lion-body)" transform="rotate(-14 142 176)"/>';
+  s+='<g class="o o-artist"><ellipse cx="150" cy="190" rx="15" ry="10" fill="#e9c58a" transform="rotate(-20 150 190)"/><circle cx="145" cy="188" r="2.500" fill="var(--pink)"/><circle cx="152" cy="185" r="2.500" fill="var(--sky)"/><circle cx="156" cy="192" r="2.500" fill="var(--leaf)"/></g>';
+  /* head */
+  s+=mane+'<circle cx="100" cy="104" r="52" fill="var(--lion-mane)"/>';
+  s+='<circle cx="60" cy="54" r="13" fill="var(--lion-face)"/><circle cx="60" cy="54" r="7" fill="#ff9db8"/><circle cx="140" cy="54" r="13" fill="var(--lion-face)"/><circle cx="140" cy="54" r="7" fill="#ff9db8"/>';
+  s+='<circle cx="100" cy="106" r="42" fill="var(--lion-face)"/>';
+  s+='<circle cx="68" cy="118" r="7.500" fill="#ff8fae" opacity=".5"/><circle cx="132" cy="118" r="7.500" fill="#ff8fae" opacity=".5"/>';
+  s+='<ellipse cx="100" cy="124" rx="21" ry="15" fill="#fff3d6"/>';
+  s+='<g class="eyes"><ellipse cx="84" cy="98" rx="6.500" ry="8.500" fill="#2a2150"/><ellipse cx="116" cy="98" rx="6.500" ry="8.500" fill="#2a2150"/><circle cx="86" cy="95" r="2.700" fill="#fff"/><circle cx="118" cy="95" r="2.700" fill="#fff"/></g>';
+  s+='<path d="M92 114Q100 109 108 114Q104 124 100 124Q96 124 92 114Z" fill="#c2485f"/><path d="M100 124V129M100 129Q92 137 86 130M100 129Q108 137 114 130" fill="none" stroke="#7a3a2a" stroke-width="2.600" stroke-linecap="round"/>';
+  s+='<g fill="#c98f4f"><circle cx="86" cy="122" r="1.500"/><circle cx="82" cy="126" r="1.500"/><circle cx="114" cy="122" r="1.500"/><circle cx="118" cy="126" r="1.500"/></g>';
+  /* outfits: head */
+  s+='<g class="o o-scientist"><path d="M50 74Q100 58 150 74" stroke="#2a2150" stroke-width="6" fill="none"/><circle cx="80" cy="72" r="12" fill="#cfeeff" fill-opacity=".85" stroke="var(--teal)" stroke-width="4.500"/><circle cx="120" cy="72" r="12" fill="#cfeeff" fill-opacity=".85" stroke="var(--teal)" stroke-width="4.500"/><path d="M92 71H108" stroke="var(--teal)" stroke-width="4"/></g>';
+  s+='<g class="o o-chef"><g fill="#fff" stroke="#d3dcf0" stroke-width="2"><circle cx="76" cy="46" r="16"/><circle cx="100" cy="36" r="19"/><circle cx="124" cy="46" r="16"/></g><rect x="74" y="46" width="52" height="24" rx="4" fill="#fff"/><path d="M74 70H126" stroke="#d3dcf0" stroke-width="2"/></g>';
+  s+='<g class="o o-engineer"><path d="M60 72Q60 26 100 26Q140 26 140 72Z" fill="#ffd23f"/><rect x="52" y="68" width="96" height="10" rx="5" fill="#f2b705"/><rect x="93" y="26" width="14" height="44" fill="#f2b705"/></g>';
+  s+='<g class="o o-artist"><ellipse cx="104" cy="48" rx="36" ry="14" fill="#d9363e" transform="rotate(-8 104 48)"/><circle cx="106" cy="34" r="4.500" fill="#d9363e"/></g>';
+  s+='<g class="o o-farmer"><path d="M66 64Q68 28 100 28Q132 28 134 64Z" fill="#f6d985"/><ellipse cx="100" cy="64" rx="58" ry="11" fill="#f0cf7a" stroke="#d1a94a" stroke-width="2"/><rect x="66" y="53" width="68" height="8" fill="#c8553d"/><path d="M110 130L142 108" stroke="#d1a94a" stroke-width="2.500" stroke-linecap="round"/><g fill="#e6c25f"><ellipse cx="144" cy="104" rx="3" ry="6" transform="rotate(35 144 104)"/><ellipse cx="138" cy="112" rx="3" ry="6" transform="rotate(35 138 112)"/></g></g>';
+  s+='<g class="o o-politician"><circle cx="84" cy="98" r="13" fill="none" stroke="#2a2150" stroke-width="3"/><circle cx="116" cy="98" r="13" fill="none" stroke="#2a2150" stroke-width="3"/><path d="M97 98H103" stroke="#2a2150" stroke-width="3"/></g>';
+  return s+'</svg>';
+}
+
+/* ---------- helpers ---------- */
+function applyI18n(){
+  root.lang=lang;
+  $$('[data-i18n]').forEach(function(e){e.textContent=t(e.dataset.i18n)});
+  $$('[data-i18n-aria]').forEach(function(e){e.setAttribute('aria-label',t(e.dataset.i18nAria))});
+  $$('.lg').forEach(function(e){e.classList.toggle('on',e.dataset.l===lang)});
+  $('#counter').setAttribute('aria-label',t('stars.aria'));
+  $('#toastTxt').textContent=t('toast');
+  $('#langBtn').setAttribute('aria-label',lang==='es'?'Cambiar a English':'Switch to Español');
+  updateAudioButtons();
+}
+function toast(){if(performance.now()-AU.lastOwn>500)sfx('star');var el=$('#toast');el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('show')},1500)}
+function burst(x,y){
+  if(!motionOK)return;
+  for(var i=0;i<10;i++){
+    var s=document.createElement('span');s.className='spark';
+    var a=Math.random()*6.283,r=40+Math.random()*70;
+    s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--dx',Math.cos(a)*r+'px');s.style.setProperty('--dy',Math.sin(a)*r+'px');
+    document.body.appendChild(s);setTimeout((function(n){return function(){n.remove()}})(s),950);
+  }
+}
+function centerOf(el){var r=el.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2]}
+function discover(key){
+  if(disc.indexOf(key)>=0)return false;
+  disc.push(key);sset('eden.disc',disc);updateCount();toast();return true;
+}
+function updateCount(){$('#starCount').textContent=disc.length;checkMilestone()}
+function refreshColors(){
+  var cs=getComputedStyle(root);
+  function g(n){return cs.getPropertyValue(n).trim()}
+  COL={teal:g('--teal'),sky:g('--sky'),red:g('--red'),orange:g('--orange'),leaf:g('--leaf'),a:g('--b-a'),t:g('--b-t'),c:g('--b-c'),g:g('--b-g'),accent:g('--accent'),fg:g('--fg'),pink:g('--pink'),gold:g('--gold')};
+}
+function isNight(){return root.getAttribute('data-theme')==='dark'}
+
+/* ---------- theme / cb / lang ---------- */
+function setTheme(m){
+  root.setAttribute('data-theme',m);sset('eden.theme',m);
+  $('#dayBtn').setAttribute('aria-pressed',m==='light');$('#nightBtn').setAttribute('aria-pressed',m==='dark');
+  refreshColors();redraw();
+}
+function setCB(on){
+  root.setAttribute('data-cb',on?'1':'0');sset('eden.cb',on);
+  $('#cbBtn').setAttribute('aria-pressed',on?'true':'false');
+  refreshColors();renderAll();redraw();
+}
+function setLang(l){lang=l;sset('eden.lang',l);applyI18n();renderAll()}
+
+/* ---------- home ---------- */
+function renderHome(){
+  $('#labs').innerHTML=LABS.map(function(l,i){return '<a class="labbtn" href="#'+l.id+'" style="--d:'+(i*.7)+'s"><span class="shape">'+l.sh+'</span><span class="cap"><b>'+t(l.k+'.name')+'</b><small>'+t(l.k+'.desc')+'</small></span></a>'}).join('');
+  $('#wardrobe').innerHTML='<h2>'+t('dress')+'</h2>'+OUTFITS.map(function(o){return '<button class="chip" type="button" data-o="'+o+'" aria-pressed="'+(o===outfit)+'">'+OICON[o]+'<span>'+t('o.'+o)+'</span></button>'}).join('');
+  sayOutfit();
+}
+function say(txt){var b=$('#say');b.textContent=txt;b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+function sayOutfit(){say(t('say.'+outfit))}
+function setOutfit(o){outfit=o;root.setAttribute('data-outfit',o);sset('eden.outfit',o);$$('#wardrobe .chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.o===o)});sayOutfit()}
+
+/* ---------- guide tips ---------- */
+var tipIdx={uni:0,hum:0,adn:0,mus:0};
+function renderGuides(){
+  $$('.guide').forEach(function(g){
+    var k=g.dataset.guide;
+    g.innerHTML='<div class="lion-slot">'+lionSVG()+'</div><div class="bubble">'+d().tips[k][tipIdx[k]%3]+'</div><button class="chip" type="button" data-tip="'+k+'">'+t('another')+'</button>';
+  });
+}
+
+/* ---------- universe ---------- */
+var uni={stage:0,t0:0};
+var EL=['H','He','C','O','N','Ca','Fe','Si'];
+var ELCOL={H:[255,217,102],He:[255,179,209],C:[255,138,61],O:[90,176,255],N:[143,124,255],Ca:[240,240,240],Fe:[255,90,77],Si:[155,224,122]};
+var mix={},lastEl=null;
+function renderStages(){
+  var h='';
+  for(var i=1;i<=4;i++){
+    h+='<button class="starbtn" type="button" data-nosfx data-s="'+i+'" aria-pressed="'+(uni.stage===i)+'"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="'+starPts(5,45,20)+'" stroke-width="7" stroke-linejoin="round"/></svg><span class="n">'+i+'</span><span class="l">'+d().stages[i].n+'</span></button>';
+  }
+  $('#stagebar').innerHTML=h;
+  var st=d().stages[uni.stage];
+  $('#uniCap').innerHTML='<h3>'+st.n+'</h3><div class="row"><div class="card"><span class="tag sci">'+t('sci')+'</span><p>'+st.s+'</p></div>'+(st.f?'<div class="card"><span class="tag faith">'+t('faith')+'</span><p>'+st.f+'</p></div>':'')+'</div>';
+}
+function setStage(n){uni.stage=n;uni.t0=performance.now();renderStages();if(n>0)discover('u'+n);redraw()}
+function renderMixer(){
+  $('#atoms').innerHTML=EL.map(function(k){
+    return '<button class="atom" type="button" data-el="'+k+'" aria-label="'+d().el[k].n+'"><span class="orb">'+k+(mix[k]?'<i class="cnt">'+mix[k]+'</i>':'')+'</span><span>'+d().el[k].n+'</span></button>';
+  }).join('');
+  var total=0,kk;for(kk in mix)total+=mix[kk];
+  var col=[255,230,150];
+  if(total){var r=0,g=0,b=0;for(kk in mix){r+=ELCOL[kk][0]*mix[kk];g+=ELCOL[kk][1]*mix[kk];b+=ELCOL[kk][2]*mix[kk]}col=[Math.round(r/total),Math.round(g/total),Math.round(b/total)]}
+  var hi=col.map(function(v){return Math.round(v+(255-v)*.55)});
+  var size=34+Math.min(total,14)*2.8;
+  var rays='';
+  if(total){for(var i=0;i<12;i++){rays+='<polygon points="100,'+(100-size-30)+' 93,'+(100-size-4)+' 107,'+(100-size-4)+'" transform="rotate('+(i*30)+' 100 100)" fill="rgb('+col+')" opacity=".85"/>'}}
+  $('#starPrev').innerHTML='<g class="rays">'+rays+'</g><circle cx="100" cy="100" r="'+size+'" fill="rgb('+col+')"/><circle cx="100" cy="100" r="'+(size*.62)+'" fill="rgb('+hi+')"/><circle cx="100" cy="100" r="'+(size*.3)+'" fill="#fff" opacity=".7"/>';
+  var info='';
+  if(!total){info='<span>'+t('mix.empty')+'</span>'}
+  else{
+    var parts=[];for(kk in mix)parts.push(kk+'×'+mix[kk]);
+    info='<div class="mixrow"><b>'+t('mix.made')+': '+parts.join(' · ')+'</b><button class="chip" type="button" id="mixClear">'+t('mix.clear')+'</button></div>';
+    if(lastEl)info+='<span><b>'+d().el[lastEl].n+'.</b> '+d().el[lastEl].t+'</span>';
+    if(Object.keys(mix).length>=4)info+='<span>'+t('mix.many')+'</span>';
+  }
+  $('#mixInfo').innerHTML=info;
+}
+
+/* universe canvas */
+var bb=[],ustars=[],gal=[],gas=[];
+(function(){
+  var i;
+  for(i=0;i<220;i++)bb.push({a:Math.random()*6.283,v:.25+Math.random()*.75,r:1+Math.random()*2,h:Math.random()});
+  for(i=0;i<170;i++)ustars.push({x:Math.random(),y:Math.random(),r:.5+Math.random()*1.6,p:Math.random()*6.3});
+  for(i=0;i<540;i++){var dd=Math.pow(Math.random(),.6);gal.push({d:dd,a:(i%3)*2.094+dd*5.2+(Math.random()-.5)*.5,r:.6+Math.random()*1.6})}
+  for(i=0;i<7;i++)gas.push({x:.1+Math.random()*.8,y:.1+Math.random()*.8,r:.12+Math.random()*.18,h:Math.random()<.5?'255,150,210':'120,170,255',p:Math.random()*6.3});
+})();
+var PLANETS=[{r:.16,sp:1.6,s:3,c:'#b5b5b5'},{r:.23,sp:1.2,s:5,c:'#e8c27a'},{r:.31,sp:.9,s:6.5,c:'#3a8dff',earth:true},{r:.39,sp:.7,s:4.5,c:'#e0623a'},{r:.5,sp:.4,s:10,c:'#d9b38c'}];
+function fit(cv){
+  var r=cv.getBoundingClientRect(),w=Math.round(r.width),h=Math.round(r.height);
+  if(!w||!h)return null;
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  if(cv.width!==w*dpr||cv.height!==h*dpr){cv.width=w*dpr;cv.height=h*dpr}
+  var c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+  return {c:c,w:w,h:h};
+}
+function dot(c,x,y,r){c.beginPath();c.arc(x,y,r,0,6.2832);c.fill()}
+function drawGalaxy(c,x,y,s,rot,al){
+  var g=c.createRadialGradient(x,y,0,x,y,s*.4);g.addColorStop(0,'rgba(255,240,200,'+(.9*al)+')');g.addColorStop(1,'rgba(255,200,120,0)');
+  c.fillStyle=g;dot(c,x,y,s*.4);
+  for(var i=0;i<gal.length;i++){
+    var q=gal[i],a=q.a+rot,rr=q.d*s;
+    c.fillStyle='hsla('+(215-45*(1-q.d))+',90%,78%,'+((.3+.55*(1-q.d))*al)+')';
+    dot(c,x+Math.cos(a)*rr,y+Math.sin(a)*rr*.55,q.r*(s>120?1:.7));
+  }
+}
+function drawUni(ts){
+  var f=fit($('#uniCv'));if(!f)return;
+  var c=f.c,w=f.w,h=f.h,cx=w/2,cy=h/2,R=Math.min(w,h),tt=ts/1000,st=uni.stage;
+  var p=Math.min(1,Math.max(0,(ts-uni.t0)/5000)),e=1-Math.pow(1-p,3),i,q;
+  c.fillStyle='#07031a';c.fillRect(0,0,w,h);
+  var bg=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(w,h)*.7);bg.addColorStop(0,'#1b0f45');bg.addColorStop(1,'#07031a');c.fillStyle=bg;c.fillRect(0,0,w,h);
+  if(st>=3){
+    for(i=0;i<ustars.length;i++){q=ustars[i];c.fillStyle='rgba(255,255,255,'+(.35+.55*Math.abs(Math.sin(tt*1.2+q.p)))+')';dot(c,q.x*w,q.y*h,q.r)}
+  }
+  if(st===0){
+    c.fillStyle='rgba(255,255,255,.9)';dot(c,cx,cy,2.5+Math.sin(tt*2)*1.2);
+    c.strokeStyle='rgba(255,255,255,.25)';c.beginPath();c.arc(cx,cy,10+Math.sin(tt*2)*3,0,6.2832);c.stroke();
+  }else if(st===1){
+    var rad=R*(.06+.8*e),g=c.createRadialGradient(cx,cy,0,cx,cy,rad);
+    g.addColorStop(0,'rgba(255,255,255,'+(1-.45*e)+')');g.addColorStop(.35,'rgba(255,200,90,'+(.85-.5*e)+')');g.addColorStop(1,'rgba(255,90,40,0)');
+    c.fillStyle=g;dot(c,cx,cy,rad);
+    for(i=0;i<bb.length;i++){q=bb[i];var dd=q.v*e*R*.72*(1+Math.sin(tt+q.a)*.012);c.fillStyle='hsla('+(35+q.h*25)+',100%,'+(70+q.h*20)+'%,'+(.9-.4*e)+')';dot(c,cx+Math.cos(q.a)*dd,cy+Math.sin(q.a)*dd,q.r)}
+  }else if(st===2){
+    for(i=0;i<gas.length;i++){var b=gas[i],x=(b.x+Math.sin(tt*.15+b.p)*.03)*w,y=(b.y+Math.cos(tt*.12+b.p)*.03)*h,r=b.r*R*1.6;
+      var gg=c.createRadialGradient(x,y,0,x,y,r);gg.addColorStop(0,'rgba('+b.h+',.4)');gg.addColorStop(1,'rgba('+b.h+',0)');c.fillStyle=gg;dot(c,x,y,r)}
+    c.fillStyle='rgba(255,255,255,.75)';
+    for(i=0;i<bb.length;i++){q=bb[i];var b2=gas[i%gas.length];
+      dot(c,(b2.x+Math.sin(tt*.15+b2.p)*.03)*w+Math.cos(q.a)*q.v*b2.r*R*.9,(b2.y+Math.cos(tt*.12+b2.p)*.03)*h+Math.sin(q.a)*q.v*b2.r*R*.9,q.r*.6)}
+  }else if(st===3){
+    drawGalaxy(c,cx,cy,R*.38,tt*.06,1);drawGalaxy(c,w*.15,h*.25,R*.1,-tt*.08,.8);drawGalaxy(c,w*.87,h*.75,R*.12,tt*.07,.8);
+  }else{
+    var sg=c.createRadialGradient(cx,cy,0,cx,cy,R*.16);sg.addColorStop(0,'rgba(255,240,150,1)');sg.addColorStop(.4,'rgba(255,190,60,.55)');sg.addColorStop(1,'rgba(255,150,40,0)');
+    c.fillStyle=sg;dot(c,cx,cy,R*.16);c.fillStyle='#ffd45c';dot(c,cx,cy,R*.045);
+    for(i=0;i<PLANETS.length;i++){
+      var pl=PLANETS[i],ro=R*pl.r*.85,an=tt*pl.sp*.4+i*1.7;
+      c.strokeStyle='rgba(255,255,255,.14)';c.lineWidth=1;c.beginPath();c.arc(cx,cy,ro,0,6.2832);c.stroke();
+      var px=cx+Math.cos(an)*ro,py=cy+Math.sin(an)*ro;
+      c.fillStyle=pl.c;dot(c,px,py,pl.s);
+      if(pl.earth){
+        c.strokeStyle='rgba(255,255,255,'+(.45+.3*Math.sin(tt*3))+')';c.lineWidth=2;c.beginPath();c.arc(px,py,pl.s+6+Math.sin(tt*3)*2,0,6.2832);c.stroke();
+        c.fillStyle='#fff';dot(c,px+Math.cos(tt*4)*13,py+Math.sin(tt*4)*13,1.8);
+        c.fillStyle='#5bd17a';dot(c,px-1.5,py-1,2.4);
+      }
+    }
+  }
+}
+
+/* ---------- human ---------- */
+var COMP=[['O',65],['C',18.5],['H',9.5],['N',3.2],['Ca',1.5],['P',1],['X',1.3]];
+var organ='heart';
+var pulse={on:false,taps:0,left:10,res:null,iv:null};
+function renderComp(){
+  $('#comp').innerHTML=COMP.map(function(r){
+    return '<li><span class="sym2">'+(r[0]==='X'?'…':r[0])+'</span><span>'+d().compn[r[0]]+'</span><span class="bar2"><i style="width:'+(r[1]/65*100).toFixed(1)+'%"></i></span><b>'+r[1]+'%</b></li>';
+  }).join('');
+}
+function renderOrgan(){
+  var o=d().org[organ];
+  $$('.organ').forEach(function(g){var k=g.dataset.o;g.classList.toggle('sel',k===organ);g.setAttribute('aria-label',d().org[k].n)});
+  $('#bones').classList.toggle('show',organ==='bones');
+  var h='<h3>'+o.n+'</h3><div class="card"><span class="tag sci">'+t('sci')+'</span><p>'+o.t+'</p></div><div class="card"><span class="tag faith">'+t('faith')+'</span><p>'+o.f+'</p></div>';
+  if(organ==='heart')h+='<div class="pulsebox" id="pulseBox"></div>';
+  $('#orgInfo').innerHTML=h;
+  if(organ==='heart')renderPulse();
+}
+var HEARTSVG='<svg viewBox="-30 -26 60 56" aria-hidden="true"><path d="M0 22 C-26 4 -20 -18 -4 -12 C0 -10 0 -6 0 -6 C0 -6 0 -10 4 -12 C20 -18 26 4 0 22Z" fill="var(--red)" stroke="#fff" stroke-width="2.500"/></svg>';
+function renderPulse(){
+  var b=$('#pulseBox');if(!b)return;
+  if(pulse.on){
+    b.innerHTML='<p>'+t('pulse.help')+'</p><button class="bigheart" id="tapHeart" type="button" data-nosfx aria-label="'+t('pulse.taps')+'">'+HEARTSVG+'</button><div class="mixrow"><span>'+t('pulse.taps')+': <b id="pTaps">'+pulse.taps+'</b></span><span>'+t('pulse.left')+': <b id="pLeft">'+pulse.left+'</b></span></div>';
+  }else if(pulse.res!=null){
+    b.innerHTML='<p><b>'+t('pulse.res')+' '+pulse.res+' '+t('pulse.bpm')+'</b></p><p>'+t('pulse.ref')+'</p><button class="chip" id="pulseGo" type="button">'+t('pulse.again')+'</button>';
+  }else{
+    b.innerHTML='<button class="chip" id="pulseGo" type="button">'+t('pulse.btn')+'</button>';
+  }
+}
+function startPulse(){
+  clearInterval(pulse.iv);
+  pulse={on:true,taps:0,left:10,res:null,iv:null};
+  pulse.iv=setInterval(function(){
+    pulse.left--;
+    if(pulse.left<=0){clearInterval(pulse.iv);pulse.on=false;pulse.res=pulse.taps*6;discover('p');renderPulse()}
+    else{var e=$('#pLeft');if(e)e.textContent=pulse.left}
+  },1000);
+  renderPulse();
+}
+function pickOrgan(k){
+  organ=k;discover('o:'+k);renderOrgan();
+  var g=$('#o-'+k);
+  if(k==='heart'){ownSound('heart');g.classList.remove('beat');void g.getBoundingClientRect();g.classList.add('beat')}
+}
+
+/* ---------- DNA ---------- */
+var BASES=['A','T','C','G'],PAIR={A:'T',T:'A',C:'G',G:'C'};
+var strand=[],filled=[],seq=[],dnaMsg={k:'idle'},dnaDone=sget('eden.dnaDone',0);
+function rb(){return BASES[Math.floor(Math.random()*4)]}
+function newStrand(){
+  strand=[];filled=[];seq=[];
+  for(var i=0;i<6;i++){strand.push(rb());filled.push(false)}
+  for(i=0;i<18;i++)seq.push(i<6?strand[i]:rb());
+  dnaMsg={k:'idle'};
+}
+var OKSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7" fill="none" stroke="currentColor" stroke-width="3.500" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var NOSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="3.500" stroke-linecap="round"/></svg>';
+function renderDNA(){
+  var act=filled.indexOf(false);
+  $('#strand').innerHTML=strand.map(function(b,i){
+    return '<div class="rung'+(i===act?' active':'')+'"><span class="base b-'+b+'">'+b+'</span><span class="link"></span><span class="slot'+(filled[i]?' on b-'+PAIR[b]:'')+'">'+(filled[i]?PAIR[b]:'?')+'</span></div>';
+  }).join('');
+  var pk='';
+  if(act>=0){
+    pk='<span><b>'+t('adn.pick')+' '+strand[act]+'?</b></span>'+BASES.map(function(b){return '<button class="basebtn b-'+b+'" type="button" data-b="'+b+'" aria-label="'+b+'">'+b+'</button>'}).join('');
+  }
+  $('#picks').innerHTML=pk;
+  var m=$('#dnaMsg');
+  m.className='msg'+(dnaMsg.k==='ok'||dnaMsg.k==='done'?' ok':dnaMsg.k==='no'?' bad':'');
+  var txt=dnaMsg.k==='ok'?t('adn.ok')+' '+dnaMsg.a+' + '+dnaMsg.b:t('adn.'+dnaMsg.k);
+  m.innerHTML=(dnaMsg.k==='ok'||dnaMsg.k==='done'?OKSVG:dnaMsg.k==='no'?NOSVG:'')+'<span>'+txt+'</span>';
+  $('#dnaCount').textContent=dnaDone;
+  $('#dnaFacts').innerHTML=d().dna.map(function(x){return '<li>'+x+'</li>'}).join('');
+  $('#dnaFaith').textContent=t('adn.faith');
+}
+function answer(b,btn){
+  var act=filled.indexOf(false);if(act<0)return;
+  if(PAIR[strand[act]]===b){
+    filled[act]=true;dnaMsg={k:'ok',a:strand[act],b:b};
+    if(filled.indexOf(false)<0){
+      dnaDone++;sset('eden.dnaDone',dnaDone);dnaMsg={k:'done'};
+      disc.push('d'+dnaDone);sset('eden.disc',disc);updateCount();toast();
+      var c=centerOf($('#strand'));burst(c[0],c[1]);
+    }
+  }else{
+    dnaMsg={k:'no'};
+    var p=$('#picks');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');
+  }
+  renderDNA();redraw();
+}
+function drawDNA(ts){
+  var f=fit($('#dnaCv'));if(!f)return;
+  var c=f.c,w=f.w,h=f.h,tt=ts/1000,n=18,cy=h/2,A=h*.34,pad=22;
+  c.fillStyle='#07031a';c.fillRect(0,0,w,h);
+  var bg=c.createRadialGradient(w/2,cy,0,w/2,cy,w*.6);bg.addColorStop(0,'#1d1050');bg.addColorStop(1,'#07031a');c.fillStyle=bg;c.fillRect(0,0,w,h);
+  var span=w-pad*2,ph=function(x){return (x-pad)/span*Math.PI*3+tt*1.1};
+  var key={A:COL.a,T:COL.t,C:COL.c,G:COL.g};
+  var s,x,y;
+  c.lineCap='round';c.lineWidth=5;
+  for(s=0;s<2;s++){
+    c.strokeStyle=s?'rgba(255,255,255,.35)':'rgba(255,255,255,.75)';c.beginPath();
+    for(x=pad;x<=w-pad;x+=4){y=cy+Math.sin(ph(x))*A*(s?-1:1);if(x===pad)c.moveTo(x,y);else c.lineTo(x,y)}
+    c.stroke();
+  }
+  var act=filled.indexOf(false),i;
+  for(i=0;i<n;i++){
+    x=pad+i*span/(n-1);var sn=Math.sin(ph(x)),cs=Math.cos(ph(x)),y1=cy+sn*A,y2=cy-sn*A,L=seq[i],R2=PAIR[L],lit=!(i<6&&!filled[i]);
+    c.lineWidth=5;
+    c.strokeStyle=key[L];c.beginPath();c.moveTo(x,y1);c.lineTo(x,cy);c.stroke();
+    c.strokeStyle=lit?key[R2]:'rgba(255,255,255,.25)';c.beginPath();c.moveTo(x,cy);c.lineTo(x,y2);c.stroke();
+    if(i===act){c.strokeStyle='rgba(255,255,255,'+(.5+.4*Math.sin(tt*5))+')';c.lineWidth=3;c.beginPath();c.arc(x,cy,A+12,0,6.2832);c.stroke()}
+    var ends=[[y1,L,key[L]],[y2,lit?R2:'?',lit?key[R2]:'rgba(255,255,255,.3)']];
+    for(var k=0;k<2;k++){
+      var rr=9+3*(k?-cs:cs);
+      c.fillStyle=ends[k][2];dot(c,x,ends[k][0],rr);
+      c.fillStyle='#1b1140';c.font='800 '+Math.max(9,Math.round(rr))+'px Nunito, sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(ends[k][1],x,ends[k][0]+1);
+    }
+  }
+}
+
+/* ---------- sky ---------- */
+var sky=$('#sky'),stars=[],clouds=[],motes=[];
+(function(){
+  var i;
+  for(i=0;i<110;i++)stars.push({x:Math.random(),y:Math.random(),r:.5+Math.random()*1.5,p:Math.random()*6.3});
+  for(i=0;i<8;i++)clouds.push({x:Math.random()*1.4-.2,y:.1+Math.random()*.8,s:.7+Math.random()*1.1,v:.004+Math.random()*.006});
+  for(i=0;i<46;i++)motes.push({x:Math.random(),y:Math.random(),r:1+Math.random()*2.2,v:.01+Math.random()*.02,p:Math.random()*6.3});
+})();
+var ISL=[{x:.1,y:.3,s:1,p:0},{x:.86,y:.2,s:.8,p:2},{x:.78,y:.7,s:1.1,p:4},{x:.16,y:.8,s:.7,p:1}];
+function island(c,cx,cy,s,tt,night){
+  var w=140*s,h=110*s;c.save();c.translate(cx,cy+Math.sin(tt)*8*s);
+  c.beginPath();c.moveTo(-w/2,0);c.bezierCurveTo(-w*.45,h*.45,-w*.12,h*.7,0,h);c.bezierCurveTo(w*.12,h*.7,w*.45,h*.45,w/2,0);c.closePath();
+  c.fillStyle=night?'#4b3a86':'#a07fb8';c.fill();
+  c.strokeStyle='rgba(255,255,255,.6)';c.lineWidth=4*s;c.beginPath();c.moveTo(w*.2,2);c.lineTo(w*.2,h*.7);c.stroke();
+  c.fillStyle=COL.leaf;c.beginPath();c.ellipse(0,0,w/2,15*s,0,0,6.2832);c.fill();
+  c.fillStyle='rgba(0,0,0,.18)';c.fillRect(-w*.2-2*s,-14*s,4*s,14*s);
+  c.fillStyle=COL.leaf;c.beginPath();c.arc(-w*.2,-20*s,13*s,0,6.2832);c.fill();
+  c.fillStyle='rgba(255,255,255,.18)';c.beginPath();c.arc(-w*.2-3*s,-23*s,7*s,0,6.2832);c.fill();
+  c.fillStyle=COL.pink;[[.1,-2],[.28,2],[-.02,3]].forEach(function(f){c.beginPath();c.arc(w*f[0],f[1]*s,3*s,0,6.2832);c.fill()});
+  c.restore();
+}
+function drawSky(ts){
+  var f=fit(sky);if(!f)return;
+  var c=f.c,w=f.w,h=f.h,tt=motionOK?ts/1000:0,night=isNight(),i,q;
+  var g=c.createLinearGradient(0,0,0,h);
+  if(night){g.addColorStop(0,'#0a0530');g.addColorStop(.55,'#2b1a68');g.addColorStop(1,'#5a2f86')}
+  else{g.addColorStop(0,'#a9d8ff');g.addColorStop(.55,'#f6d3f2');g.addColorStop(1,'#ffeccc')}
+  c.fillStyle=g;c.fillRect(0,0,w,h);
+  if(night){
+    for(i=0;i<stars.length;i++){q=stars[i];c.fillStyle='rgba(255,255,255,'+(.4+.5*Math.abs(Math.sin(tt*1.3+q.p)))+')';dot(c,q.x*w,q.y*h,q.r)}
+    var mg=c.createRadialGradient(w*.82,h*.14,0,w*.82,h*.14,90);mg.addColorStop(0,'rgba(255,246,214,.5)');mg.addColorStop(1,'rgba(255,246,214,0)');c.fillStyle=mg;dot(c,w*.82,h*.14,90);
+    c.fillStyle='#fff6d6';dot(c,w*.82,h*.14,30);c.fillStyle='rgba(200,190,160,.5)';dot(c,w*.82-8,h*.14-6,6);dot(c,w*.82+9,h*.14+8,4);
+  }else{
+    var sg=c.createRadialGradient(w*.82,h*.14,0,w*.82,h*.14,130);sg.addColorStop(0,'rgba(255,236,150,.95)');sg.addColorStop(.3,'rgba(255,220,120,.5)');sg.addColorStop(1,'rgba(255,220,120,0)');
+    c.fillStyle=sg;dot(c,w*.82,h*.14,130);c.fillStyle='#fff3b0';dot(c,w*.82,h*.14,34);
+  }
+  for(i=0;i<clouds.length;i++){
+    q=clouds[i];var x=((q.x+tt*q.v)%1.4)-.2,y=q.y*h,s=q.s*46;
+    c.fillStyle=night?'rgba(190,160,255,.16)':'rgba(255,255,255,.62)';
+    dot(c,x*w,y,s);dot(c,x*w+s*.9,y+s*.15,s*.8);dot(c,x*w-s*.9,y+s*.2,s*.7);dot(c,x*w+s*.3,y-s*.4,s*.7);
+  }
+  for(i=0;i<ISL.length;i++){q=ISL[i];island(c,q.x*w,q.y*h,q.s*Math.min(1,w/700+.35),tt*.7+q.p,night)}
+  c.fillStyle=night?'rgba(255,230,160,.7)':'rgba(255,255,255,.85)';
+  for(i=0;i<motes.length;i++){q=motes[i];var yy=((q.y-tt*q.v)%1+1)%1;c.globalAlpha=.4+.4*Math.sin(tt*2+q.p);dot(c,(q.x+Math.sin(tt*.5+q.p)*.01)*w,yy*h,q.r);c.globalAlpha=1}
+}
+
+/* ---------- AUDIO ENGINE (all sounds are synthesized, no files) ---------- */
+var AU={lastOwn:0,duckUntil:0,labMusic:false,duckT:null,ctx:null,master:null,music:null,sfx:null,an:null,wave:null,rev:null,timer:null,nextT:0,step:0,musicOn:sget('eden.music',true),sfxOn:sget('eden.sfx',true)};
+var STEP=0.4545;
+function mtof(m){return 440*Math.pow(2,(m-69)/12)}
+function audioInit(){
+  if(AU.ctx)return AU.ctx;
+  var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
+  var c;try{c=new AC()}catch(e){return null}
+  AU.ctx=c;
+  AU.master=c.createGain();AU.master.gain.value=.9;
+  AU.an=c.createAnalyser();AU.an.fftSize=1024;AU.wave=new Uint8Array(AU.an.fftSize);
+  AU.master.connect(AU.an);AU.an.connect(c.destination);
+  AU.music=c.createGain();AU.music.gain.value=musicTarget();AU.music.connect(AU.master);
+  AU.sfx=c.createGain();AU.sfx.gain.value=.8;AU.sfx.connect(AU.master);
+  var len=Math.floor(c.sampleRate*2.4),buf=c.createBuffer(2,len,c.sampleRate);
+  for(var ch=0;ch<2;ch++){var dd=buf.getChannelData(ch);for(var i=0;i<len;i++)dd[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6)}
+  AU.rev=c.createConvolver();AU.rev.buffer=buf;
+  var send=c.createGain();send.gain.value=.28;AU.music.connect(send);AU.sfx.connect(send);send.connect(AU.rev);
+  var rg=c.createGain();rg.gain.value=.7;AU.rev.connect(rg);rg.connect(AU.master);
+  return c;
+}
+function osc(type,f,detune){var o=AU.ctx.createOscillator();o.type=type;o.frequency.value=f;if(detune)o.detune.value=detune;return o}
+function voice(o,dest,t,vol,att,hold,rel){
+  var g=AU.ctx.createGain(),h=Math.max(0,hold);
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.linearRampToValueAtTime(vol,t+att);
+  g.gain.setValueAtTime(vol,t+att+h);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+att+h+rel);
+  o.connect(g);g.connect(dest);o.start(t);o.stop(t+att+h+rel+.05);
+  return g;
+}
+function bell(f,t,vol,dest){
+  voice(osc('sine',f),dest,t,vol,.004,0,1.5);
+  voice(osc('sine',f*2.005),dest,t,vol*.28,.003,0,.55);
+  voice(osc('sine',f*3.01),dest,t,vol*.09,.003,0,.25);
+}
+function pluck(f,t,vol,dest){
+  voice(osc('triangle',f),dest,t,vol,.003,0,1.0);
+  voice(osc('sine',f*2),dest,t,vol*.35,.003,0,.4);
+}
+function flute(f,t,vol,dest,dur){
+  var o=osc('sine',f),lfo=osc('sine',5.2),lg=AU.ctx.createGain();
+  lg.gain.value=f*.006;lfo.connect(lg);lg.connect(o.frequency);lfo.start(t);lfo.stop(t+dur+.6);
+  voice(o,dest,t,vol,.08,dur-.1,.4);
+  voice(osc('sine',f*2),dest,t,vol*.1,.08,dur-.1,.3);
+}
+function playNote(m,kind){
+  var c=audioInit();if(!c)return;if(c.state==='suspended')c.resume();
+  var t=c.currentTime+.005,f=mtof(m),d=AU.sfx;
+  if(kind==='flute')flute(f,t,.2,d,.6);else if(kind==='harp')pluck(f,t,.26,d);else bell(f,t,.28,d);
+}
+function sfx(kind,arg){
+  if(!AU.sfxOn)return;
+  var c=audioInit();if(!c)return;if(c.state==='suspended')c.resume();
+  var t=c.currentTime+.003,d=AU.sfx,o;
+  if(kind==='click'){
+    o=osc('sine',520);o.frequency.setValueAtTime(520,t);o.frequency.exponentialRampToValueAtTime(900,t+.07);
+    voice(o,d,t,.22,.005,0,.12);voice(osc('sine',1320),d,t+.02,.06,.003,0,.08);
+  }else if(kind==='star'){
+    [784,988,1319].forEach(function(f,i){bell(f,t+i*.08,.2,d)});
+  }else if(kind==='starN'){
+    var f0=[523.25,659.25,783.99,1046.5][(arg||1)-1]||784;
+    bell(f0,t,.26,d);bell(f0*2,t+.09,.18,d);bell(f0*1.5,t+.18,.14,d);
+  }else if(kind==='heart'){
+    thump(t,.55);thump(t+.2,.4);
+  }else if(kind==='cheer'){
+    [523.25,659.25,783.99,1046.5,1318.5].forEach(function(f,i){bell(f,t+i*.1,.24,d)});
+  }
+}
+
+/* background music: I - vi - IV - V in C major, slow and bright */
+var CH=[
+  {b:36,pad:[55,60,64],arp:[72,76,79,84]},
+  {b:33,pad:[57,60,64],arp:[69,72,76,81]},
+  {b:41,pad:[53,57,60],arp:[65,69,72,77]},
+  {b:43,pad:[55,59,62],arp:[67,71,74,79]}
+];
+var ARP=[0,1,2,3,2,1,2,1];
+var MEL=[{0:[67,4],4:[72,4]},{0:[69,4],4:[76,4]},{0:[69,4],4:[72,4]},{0:[71,4],4:[74,4]}];
+function scheduleStep(n,t){
+  var bar=Math.floor(n/8)%4,s=n%8,ch=CH[bar],c=AU.ctx,d=AU.music;
+  if(s===0){
+    ch.pad.forEach(function(m,i){
+      var lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1100;lp.connect(d);
+      voice(osc('sine',mtof(m)),lp,t,.05,1.0,2.2,1.6);
+      voice(osc('triangle',mtof(m),i%2?6:-6),lp,t,.022,1.0,2.2,1.6);
+    });
+  }
+  if(s===0||s===4)voice(osc('triangle',mtof(ch.b)),d,t,s?.12:.2,.02,STEP*3,.5);
+  bell(mtof(ch.arp[ARP[s]]),t+Math.random()*.01,s%2?.05:.08,d);
+  var m=MEL[bar][s];
+  if(m)flute(mtof(m[0]),t,.075,d,m[1]*STEP);
+}
+function musicTick(){
+  var c=AU.ctx;if(!c||!AU.musicOn)return;
+  if(AU.nextT<c.currentTime-.3)AU.nextT=c.currentTime+.1;
+  while(AU.nextT<c.currentTime+.6){scheduleStep(AU.step,AU.nextT);AU.nextT+=STEP;AU.step=(AU.step+1)%32}
+}
+function startMusic(){
+  var c=audioInit();if(!c||!AU.musicOn)return;
+  if(c.state==='suspended')c.resume();
+  applyMusicGain();
+  if(!AU.timer){AU.nextT=c.currentTime+.12;AU.step=0;AU.timer=setInterval(musicTick,150)}
+  musicTick();
+}
+function stopMusic(){
+  if(AU.timer){clearInterval(AU.timer);AU.timer=null}
+  applyMusicGain();
+}
+function updateAudioButtons(){
+  var m=$('#musicBtn'),s=$('#sfxBtn');if(!m||!s)return;
+  m.setAttribute('aria-pressed',(AU.musicOn&&(cur!=='musica'||AU.labMusic))?'true':'false');
+  s.setAttribute('aria-pressed',AU.sfxOn?'true':'false');
+}
+function setMusic(on){AU.musicOn=on;sset('eden.music',on);if(on)startMusic();else stopMusic();updateAudioButtons()}
+function setSfx(on){AU.sfxOn=on;sset('eden.sfx',on);updateAudioButtons()}
+function initAudioUnlock(){
+  function go(){
+    removeEventListener('pointerdown',go,true);removeEventListener('keydown',go,true);
+    if(!audioInit())return;
+    if(AU.ctx.state==='suspended')AU.ctx.resume();
+    if(AU.musicOn)startMusic();
+  }
+  addEventListener('pointerdown',go,true);addEventListener('keydown',go,true);
+  document.addEventListener('visibilitychange',function(){
+    if(!AU.ctx)return;
+    if(document.hidden)AU.ctx.suspend();else AU.ctx.resume();
+  });
+}
+/* click sound on every button, link and organ */
+document.addEventListener('click',function(ev){
+  var el=ev.target.closest('button,a,.organ');
+  if(!el||el.dataset.nosfx!==undefined)return;
+  sfx('click');
+},true);
+
+/* ---------- MUSIC LAB ---------- */
+var PCC={0:'red',2:'gold',4:'leaf',5:'sky',7:'pink',9:'teal',11:'orange'};
+var KEYS=[{m:60,k:'a'},{m:62,k:'s'},{m:64,k:'d'},{m:65,k:'f'},{m:67,k:'g'},{m:69,k:'h'},{m:71,k:'j'},{m:72,k:'k'}];
+var NM={es:['Do','Do#','Re','Re#','Mi','Fa','Fa#','Sol','Sol#','La','La#','Si'],en:['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']};
+function noteName(m){return NM[lang][m%12]}
+var inst='bell',instUsed={bell:1},played={},lastNote=null,ripples=[];
+var SROWS=[81,79,76,74,72];
+var seqGrid=[[72],[76],[79],[81],[79],[76],[74],[72]];
+var seqOn=false,seqStep=-1,seqTimer=null;
+function renderMusic(){
+  $('#keys').innerHTML=KEYS.map(function(k){
+    return '<button class="pkey" type="button" data-nosfx data-note="'+k.m+'" style="--kc:var(--'+PCC[k.m%12]+')" aria-label="'+noteName(k.m)+'"><span class="kl"><b>'+noteName(k.m)+'</b><small class="kbdhint">'+k.k.toUpperCase()+'</small></span></button>';
+  }).join('');
+  $('#inst').innerHTML=['bell','flute','harp'].map(function(k){
+    return '<button class="chip" type="button" data-nosfx data-inst="'+k+'" aria-pressed="'+(inst===k)+'">'+t('i.'+k)+'</button>';
+  }).join('');
+  var h='';
+  SROWS.forEach(function(m){
+    h+='<span class="rowlab">'+noteName(m)+'</span>';
+    for(var s=0;s<8;s++){
+      var on=seqGrid[s].indexOf(m)>=0;
+      h+='<button class="cell'+(on?' on':'')+(s===seqStep?' cur':'')+'" type="button" data-nosfx data-cm="'+m+'" data-cs="'+s+'" aria-pressed="'+on+'" aria-label="'+noteName(m)+', '+t('seq.step')+' '+(s+1)+'" style="--rc:var(--'+PCC[m%12]+')"></button>';
+    }
+  });
+  $('#seq').innerHTML=h;
+  $('#seqClear').textContent=t('seq.clear');
+  updateSeqBtn();showNoteInfo();
+}
+function showNoteInfo(){
+  var el=$('#noteInfo');
+  if(lastNote==null){el.innerHTML='<span>'+t('mus.idle')+'</span>';return}
+  el.innerHTML='<span><b>'+noteName(lastNote)+'</b> · '+mtof(lastNote).toFixed(0)+' '+t('mus.hz')+'</span>';
+}
+function updateSeqBtn(){
+  var b=$('#seqPlay');if(!b)return;
+  b.classList.toggle('playing',seqOn);
+  b.innerHTML=(seqOn?'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg>')+'<span>'+t(seqOn?'seq.stop':'seq.play')+'</span>';
+}
+function ripple(m){ripples.push({m:m,t:performance.now()})}
+function markCur(){$$('#seq .cell').forEach(function(c){c.classList.toggle('cur',+c.dataset.cs===seqStep)})}
+function seqTick(){
+  seqStep=(seqStep+1)%8;markCur();
+  seqGrid[seqStep].forEach(function(m){playNote(m,inst);ripple(m)});
+}
+function startSeq(){seqOn=true;seqStep=-1;seqTick();seqTimer=setInterval(seqTick,340);discover('m:seq');updateSeqBtn()}
+function stopSeq(){
+  if(seqTimer){clearInterval(seqTimer);seqTimer=null}
+  if(!seqOn&&seqStep<0)return;
+  seqOn=false;seqStep=-1;markCur();updateSeqBtn();
+}
+function handleMusicClick(el){
+  if(el.id==='musicBtn'){
+    if(cur==='musica'){
+      if(!AU.musicOn){AU.labMusic=true;setMusic(true)}
+      else{AU.labMusic=!AU.labMusic;applyMusicGain();updateAudioButtons()}
+    }else setMusic(!AU.musicOn);
+    return true;
+  }
+  if(el.id==='sfxBtn'){setSfx(!AU.sfxOn);return true}
+  if(el.dataset.note){
+    var m=+el.dataset.note;playNote(m,inst);ripple(m);lastNote=m;showNoteInfo();
+    played[m]=1;discover('m:first');if(Object.keys(played).length>=KEYS.length-1)discover('m:all');
+    el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit');setTimeout(function(){el.classList.remove('hit')},160);
+    return true;
+  }
+  if(el.dataset.inst){
+    inst=el.dataset.inst;instUsed[inst]=1;
+    $$('#inst .chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.inst===inst?'true':'false')});
+    playNote(72,inst);if(Object.keys(instUsed).length>=3)discover('m:inst');
+    return true;
+  }
+  if(el.dataset.cm){
+    var s=+el.dataset.cs,n=+el.dataset.cm,i=seqGrid[s].indexOf(n);
+    if(i>=0)seqGrid[s].splice(i,1);else{seqGrid[s].push(n);playNote(n,inst);ripple(n)}
+    el.classList.toggle('on',i<0);el.setAttribute('aria-pressed',i<0?'true':'false');
+    return true;
+  }
+  if(el.id==='seqPlay'){if(seqOn)stopSeq();else startSeq();return true}
+  if(el.id==='seqClear'){
+    seqGrid=[[],[],[],[],[],[],[],[]];
+    $$('#seq .cell').forEach(function(b){b.classList.remove('on');b.setAttribute('aria-pressed','false')});
+    return true;
+  }
+  if(el.id==='cheerX'){hideCheer();return true}
+  return false;
+}
+document.addEventListener('keydown',function(ev){
+  if(cur!=='musica'||ev.ctrlKey||ev.metaKey||ev.altKey||ev.repeat)return;
+  var k=ev.key.toLowerCase();
+  for(var i=0;i<KEYS.length;i++){
+    if(KEYS[i].k===k){var b=$('.pkey[data-note="'+KEYS[i].m+'"]');if(b)b.click();return}
+  }
+});
+function drawMus(ts){
+  var f=fit($('#musCv'));if(!f)return;
+  var c=f.c,w=f.w,h=f.h,tt=ts/1000,cy=h/2,i,x,live=false,now=performance.now();
+  var bg=c.createLinearGradient(0,0,0,h);bg.addColorStop(0,'#1d1050');bg.addColorStop(1,'#07031a');c.fillStyle=bg;c.fillRect(0,0,w,h);
+  c.fillStyle='rgba(255,255,255,.45)';
+  for(i=0;i<40;i++)dot(c,((i*97)%100)/100*w,((i*53)%100)/100*h,1+(i%3)*.5);
+  if(AU.an&&AU.ctx&&AU.ctx.state==='running'){AU.an.getByteTimeDomainData(AU.wave);live=true}
+  var n=AU.wave?AU.wave.length:1;
+  for(var pass=0;pass<2;pass++){
+    c.strokeStyle=pass?'rgba(255,255,255,.35)':COL.accent;c.lineWidth=pass?2:5;c.lineCap='round';c.lineJoin='round';c.beginPath();
+    for(x=0;x<=w;x+=3){
+      var v=(live?(AU.wave[Math.floor(x/w*(n-1))]-128)/128*3:0)+Math.sin(x*.025+tt*2.2)*.1+Math.sin(x*.011-tt*1.3)*.05;
+      v=Math.max(-1,Math.min(1,v));
+      var y=cy+v*h*.38*(pass?-.7:1);
+      if(x===0)c.moveTo(x,y);else c.lineTo(x,y);
+    }
+    c.stroke();
+  }
+  ripples=ripples.filter(function(r){return now-r.t<1400});
+  for(i=0;i<ripples.length;i++){
+    var r=ripples[i],age=(now-r.t)/1400,rx=40+((r.m-58)/26)*(w-80);
+    c.globalAlpha=1-age;c.strokeStyle=COL[PCC[r.m%12]]||COL.accent;c.lineWidth=4;
+    c.beginPath();c.arc(rx,cy,8+age*h*.5,0,6.2832);c.stroke();
+    c.fillStyle=COL[PCC[r.m%12]]||COL.accent;dot(c,rx,cy,6*(1-age)+2);
+    c.globalAlpha=1;
+  }
+}
+
+/* ---------- LEITO CHEER every 10 stars ---------- */
+function checkMilestone(){
+  var m=Math.floor(disc.length/10);
+  if(m>lastM){lastM=m;sset('eden.milestone',m);showCheer(m)}
+  else if(m<lastM){lastM=m;sset('eden.milestone',m)}
+}
+function showCheer(m){
+  var el=$('#cheer'),list=d().praise,n=m*10;
+  $('.cheer-lion',el).innerHTML=lionSVG();
+  $('#cheerN').textContent=lang==='es'?'¡'+n+' estrellas!':n+' stars!';
+  $('#cheerT').textContent=list[(m-1)%list.length];
+  el.hidden=false;el.classList.remove('in');void el.offsetWidth;el.classList.add('in');
+  clearTimeout(showCheer.t);showCheer.t=setTimeout(hideCheer,7500);
+  setTimeout(function(){sfx('cheer')},350);
+  var r=el.getBoundingClientRect();burst(r.left+70,r.top+50);
+}
+function hideCheer(){var el=$('#cheer');if(el)el.hidden=true}
+
+/* ---------- MOBILE TUTORIAL ---------- */
+var tut={on:false,i:0},TN=7;
+function isMobile(){
+  try{
+    return (matchMedia('(pointer:coarse)').matches&&Math.min(screen.width,screen.height)<=820)||/Android.+Mobile|iPhone|iPod/i.test(navigator.userAgent);
+  }catch(e){return false}
+}
+function svgOf(sel){var e=$(sel+' svg');return e?e.outerHTML:''}
+function renderTut(){
+  var i=tut.i,last=i===TN-1,vis='',o;
+  $('#tutTitle').textContent=t('tut'+(i+1)+'.h');
+  $('#tutText').textContent=t('tut'+(i+1)+'.t');
+  if(i===1){
+    vis='<div class="t-labs">'+LABS.map(function(l){return '<div class="t-lab"><span class="t-ico">'+l.sh+'</span><b>'+t(l.k+'.name')+'</b></div>'}).join('')+'</div>';
+  }else if(i===2){
+    vis='<span class="t-ico"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="'+starPts(5,45,20)+'" fill="var(--gold)" stroke="var(--gold)" stroke-width="7" stroke-linejoin="round"/></svg></span><span class="orb">H</span><span class="t-ico">'+HEARTSVG+'</span><span class="t-ico"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="'+starPts(8,46,30)+'" fill="var(--teal)" stroke="var(--teal)" stroke-width="7" stroke-linejoin="round"/></svg></span>';
+  }else if(i===3){
+    vis=OUTFITS.map(function(k){return '<span class="chip fake">'+OICON[k]+'<span>'+t('o.'+k)+'</span></span>'}).join('');
+  }else if(i===4){
+    vis='<span class="chip fake"><span class="lg on">English</span>/<span class="lg">Español</span></span>'
+      +'<span class="chip fake">'+svgOf('#musicBtn')+'<span>'+t('music')+'</span></span>'
+      +'<span class="chip fake">'+svgOf('#sfxBtn')+'<span>'+t('sfx')+'</span></span>'
+      +'<span class="chip fake">'+svgOf('#dayBtn')+svgOf('#nightBtn')+'<span>'+t('tut.dn')+'</span></span>';
+  }else if(i===5){
+    var on=root.getAttribute('data-cb')==='1';
+    vis='<button class="chip" id="tutCb" type="button" aria-pressed="'+on+'">'+svgOf('#cbBtn')+'<span>'+t('tut.cb')+'</span></button>';
+  }
+  $('#tutVis').innerHTML=vis;
+  $('#tutDots').innerHTML=Array.apply(null,Array(TN)).map(function(_,k){return '<i'+(k===i?' class="on"':'')+'></i>'}).join('');
+  $('#tutNext').textContent=t(last?'tut.go':'tut.next');
+  $('#tutSkip').hidden=last;
+  $('#tutLion').classList.toggle('big',i===0||last);
+}
+function tutHop(){
+  var l=$('#tutLion');l.classList.remove('hop');void l.offsetWidth;l.classList.add('hop');
+}
+function openTut(){
+  tut.on=true;tut.i=0;
+  hideCheer();
+  $('#tutLion').innerHTML=lionSVG();
+  $('#tut').hidden=false;$('#tut').scrollTop=0;
+  root.classList.add('tut-open');
+  ['.top','.wrap'].forEach(function(s){var e=$(s);if(e)e.inert=true});
+  renderTut();tutHop();
+  var n=$('#tutNext');if(n)n.focus({preventScroll:true});
+}
+function closeTut(){
+  tut.on=false;sset('eden.tutorial',true);
+  $('#tut').hidden=true;root.classList.remove('tut-open');
+  ['.top','.wrap'].forEach(function(s){var e=$(s);if(e)e.inert=false});
+  window.scrollTo(0,0);
+}
+function handleTutClick(el){
+  if(el.id==='tutNext'){
+    if(tut.i<TN-1){tut.i++;renderTut();tutHop();$('#tut').scrollTop=0}else closeTut();
+    return true;
+  }
+  if(el.id==='tutSkip'){closeTut();return true}
+  if(el.id==='tutLang'){setLang(lang==='es'?'en':'es');return true}
+  if(el.id==='tutCb'){setCB(el.getAttribute('aria-pressed')!=='true');return true}
+  if(el.id==='tutBtn'||el.id==='tutBtn2'){openTut();return true}
+  return false;
+}
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&tut.on)closeTut()});
+function initTutorial(){
+  if(!isMobile())return;
+  root.setAttribute('data-mobile','1');
+  if(!sget('eden.tutorial',false))openTut();
+}
+
+/* ---------- own sounds duck the background music ---------- */
+function thump(t,vol){
+  var d=AU.sfx,o=osc('sine',95);
+  o.frequency.setValueAtTime(95,t);o.frequency.exponentialRampToValueAtTime(48,t+.12);
+  voice(o,d,t,vol,.005,0,.16);
+  var o2=osc('triangle',190);o2.frequency.setValueAtTime(190,t);o2.frequency.exponentialRampToValueAtTime(95,t+.1);
+  voice(o2,d,t,vol*.35,.004,0,.09);
+}
+function musicTarget(){return AU.musicOn&&(cur!=='musica'||AU.labMusic)&&performance.now()>=AU.duckUntil?.5:0}
+function applyMusicGain(){
+  var c=AU.ctx;if(!c||!AU.music)return;
+  AU.music.gain.cancelScheduledValues(c.currentTime);
+  AU.music.gain.setTargetAtTime(musicTarget(),c.currentTime,.25);
+}
+function duckMusic(){
+  AU.duckUntil=performance.now()+9000;applyMusicGain();
+  clearTimeout(AU.duckT);AU.duckT=setTimeout(applyMusicGain,9100);
+}
+function ownSound(kind,arg){
+  AU.lastOwn=performance.now();
+  if(AU.sfxOn)duckMusic();
+  sfx(kind,arg);
+}
+
+/* ---------- loop ---------- */
+function frame(ts){drawSky(ts);if(cur==='universo')drawUni(ts);else if(cur==='adn')drawDNA(ts);else if(cur==='musica')drawMus(ts)}
+function loop(ts){frame(ts);requestAnimationFrame(loop)}
+function redraw(){if(!motionOK)frame(performance.now())}
+
+/* ---------- routing ---------- */
+function route(){
+  var h=location.hash.replace('#','');
+  cur=(h==='universo'||h==='humano'||h==='adn'||h==='musica')?h:'home';
+  if(cur!=='musica')stopSeq();
+  if(cur==='musica')AU.labMusic=false;
+  applyMusicGain();updateAudioButtons();
+  $$('.view').forEach(function(e){e.hidden=e.id!=='v-'+cur});
+  window.scrollTo(0,0);
+  if(cur==='universo'&&uni.stage===0)uni.t0=performance.now();
+  redraw();
+  if(!motionOK)setTimeout(redraw,60);
+}
+
+function renderAll(){
+  renderHome();renderGuides();renderStages();renderMixer();renderComp();renderOrgan();renderDNA();renderMusic();applyI18n();if(tut.on)renderTut();
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(ev){
+  var el=ev.target.closest('button,a');if(!el)return;
+  if(handleTutClick(el))return;
+  if(handleMusicClick(el))return;
+  if(el.id==='langBtn'){setLang(lang==='es'?'en':'es');return}
+  if(el.id==='cbBtn'){setCB(el.getAttribute('aria-pressed')!=='true');return}
+  if(el.id==='dayBtn'){setTheme('light');return}
+  if(el.id==='nightBtn'){setTheme('dark');return}
+  if(el.id==='lionBtn'){
+    el.classList.remove('hop');void el.offsetWidth;el.classList.add('hop');
+    var ch=d().chat;say(ch[Math.floor(Math.random()*ch.length)]);return;
+  }
+  if(el.dataset.o&&el.closest('#wardrobe')){setOutfit(el.dataset.o);return}
+  if(el.dataset.s){ownSound('starN',+el.dataset.s);setStage(+el.dataset.s);var c=centerOf(el);burst(c[0],c[1]);return}
+  if(el.dataset.el){var k=el.dataset.el;mix[k]=(mix[k]||0)+1;lastEl=k;discover('e:'+k);renderMixer();var c2=centerOf(el);burst(c2[0],c2[1]);return}
+  if(el.id==='mixClear'){mix={};lastEl=null;renderMixer();return}
+  if(el.dataset.tip){var tk=el.dataset.tip;tipIdx[tk]++;renderGuides();return}
+  if(el.id==='pulseGo'){startPulse();return}
+  if(el.id==='tapHeart'){ownSound('heart');pulse.taps++;var te=$('#pTaps');if(te)te.textContent=pulse.taps;el.classList.remove('beat');void el.offsetWidth;el.classList.add('beat');return}
+  if(el.dataset.b){answer(el.dataset.b,el);return}
+  if(el.id==='newStrand'){newStrand();renderDNA();redraw();return}
+});
+$$('.organ').forEach(function(g){
+  g.addEventListener('click',function(){pickOrgan(g.dataset.o)});
+  g.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();pickOrgan(g.dataset.o)}});
+});
+addEventListener('hashchange',route);
+addEventListener('resize',redraw);
+
+/* ---------- init ---------- */
+$('#lionBtn .lion-slot').innerHTML=lionSVG();
+$('#ctrStar').setAttribute('points',starPts(5,46,20));
+$('#toastStar').setAttribute('points',starPts(5,46,20));
+var storedTheme=sget('eden.theme',null);
+var startTheme=storedTheme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+root.setAttribute('data-outfit',outfit);
+root.setAttribute('data-cb',sget('eden.cb',false)?'1':'0');
+$('#cbBtn').setAttribute('aria-pressed',sget('eden.cb',false)?'true':'false');
+root.setAttribute('data-theme',startTheme);
+$('#dayBtn').setAttribute('aria-pressed',startTheme==='light');$('#nightBtn').setAttribute('aria-pressed',startTheme==='dark');
+refreshColors();
+newStrand();
+updateCount();
+renderAll();
+initAudioUnlock();
+updateAudioButtons();
+route();
+initTutorial();
+if(motionOK)requestAnimationFrame(loop);else redraw();
+})();
+</script>
+
+</body></html>
