@@ -941,7 +941,7 @@ function t(k){return (UI[lang][k]!=null)?UI[lang][k]:k}
 function d(){return DATA[lang]}
 
 /* ---------- state ---------- */
-var OUTFITS=['scientist','chef','artist','farmer','singer','footballer','dancer','teacher','politician','vet'];
+var OUTFITS=['scientist','chef','artist','farmer','singer','footballer','teacher','politician','vet'];
 var outfit=sget('eden.outfit','scientist');if(OUTFITS.indexOf(outfit)<0)outfit='scientist';
 var disc=sget('eden.disc',[]);
 var lastM=sget('eden.milestone',Math.floor(disc.length/10));
